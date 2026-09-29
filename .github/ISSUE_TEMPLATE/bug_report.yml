@@ -1,0 +1,36 @@
+name: "Error en el material de la asignatura"
+description: "Un enunciado, plantilla o guía tiene un error"
+labels: ["bug"]
+body:
+  - type: input
+    id: fichero
+    attributes:
+      label: "Fichero o documento afectado"
+      placeholder: "p. ej. docs/Guia_instalacion_VSCode_MCUXpresso.md"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problema
+    attributes:
+      label: "Qué está mal"
+      description: "Qué dice, qué debería decir y cómo lo has comprobado."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: hardware
+    attributes:
+      label: "Hardware"
+      options:
+        - FRDM-MCXA156
+        - FRDM-MCXA156 + LCD-PAR-S035
+        - Sin hardware (documentación)
+    validations:
+      required: true
+
+  - type: input
+    id: so
+    attributes:
+      label: "Sistema operativo"
+      placeholder: "p. ej. Windows 11"

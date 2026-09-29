@@ -1,0 +1,40 @@
+{
+  "recommendations": [
+    // Obligatorias: base comun para que todo el alumnado trabaje con el mismo flujo.
+    "editorconfig.editorconfig",
+    "nxpsemiconductors.mcuxpresso",
+    "usernamehw.errorlens",
+
+    // Documentacion: utiles si las practicas, memorias o guiones se mantienen en este repositorio.
+    "bierner.markdown-mermaid",
+    "davidanson.vscode-markdownlint",
+    "tomoki1207.pdf",
+
+    // Opcionales: pueden ayudar, pero no deberian asumirse en clase ni en las instrucciones del laboratorio.
+    "mhutchie.git-graph",
+    "mohammadbaqer.better-folding",
+    "miguelsolorio.fluent-icons",
+    "miguelsolorio.symbols",
+    "oderwat.indent-rainbow",
+    "bierner.github-markdown-preview"
+  ],
+  "unwantedRecommendations": [
+    // No recomendadas en docencia: anaden pasos y problemas de entorno que desvían del objetivo de la practica.
+    "ms-vscode-remote.remote-containers",
+    "ms-vscode-remote.remote-ssh",
+    "ms-vscode-remote.remote-ssh-edit",
+    "ms-vscode-remote.remote-wsl",
+    "ms-vscode-remote.vscode-remote-extensionpack",
+
+    // Fuera del foco del curso: utiles en otros contextos, pero normalmente irrelevantes para una practica local de firmware.
+    "ms-azuretools.vscode-docker",
+    "ms-python.python",
+
+    // Solapan el flujo de MCUXpresso: pueden confundir al alumnado al ofrecer caminos alternativos para compilar o depurar.
+    "marus25.cortex-debug",
+    "ms-vscode.cmake-tools",
+
+    // Git avanzado: potente para el profesorado, pero prescindible si el alumnado solo necesita operaciones basicas.
+    "gitlens.gitlens"
+  ]
+}

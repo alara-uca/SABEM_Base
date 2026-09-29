@@ -1,0 +1,29 @@
+# --- Salida de compilacion: una carpeta por preset de CMake (minusculas) ---
+debug/
+release/
+*.o
+*.d
+*.elf
+*.axf
+*.hex
+*.bin
+*.map
+*.lst
+*.su
+
+# NOTA: mcux_include.json y .vscode/mcuxpresso-tools.json SI se versionan (la extension
+# los reajusta al abrir el proyecto y da error si faltan). No los añadais aqui.
+
+# --- Carpeta auxiliar de la extension ---
+__repo__/
+
+# --- Registros ---
+*.log
+
+# --- Sistema operativo y editores ---
+Thumbs.db
+.DS_Store
+
+# --- Credenciales, nunca al repositorio ---
+*_credenciales.*
+wifi_config_local.h

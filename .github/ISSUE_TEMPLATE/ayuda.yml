@@ -1,0 +1,85 @@
+name: "Necesito ayuda"
+description: "Me he atascado y quiero que el profesor lo vea"
+labels: ["question"]
+# El issue se asigna al profesor (debe estar invitado al repositorio) para que le llegue el aviso.
+assignees:
+  - ale87jan
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Antes de enviar, relee lo que has escrito: un buen *issue* se puede contestar sin
+        preguntarte nada. Menciona al profesor con `@ale87jan` en el texto si quieres
+        asegurarte de que le llega el aviso.
+
+  - type: dropdown
+    id: hito
+    attributes:
+      label: "Hito o práctica"
+      options:
+        - Entorno de desarrollo / Git
+        - H1 (P01)
+        - H2 (P02)
+        - H3 (P03)
+        - H4 (P04)
+        - H5 (P05)
+        - H6 (P06)
+        - H7 (P07)
+        - H8 (P08)
+        - H9 (P09)
+        - H10 (P10)
+        - Trabajo final / integración
+        - Otro
+    validations:
+      required: true
+
+  - type: textarea
+    id: intento
+    attributes:
+      label: "Qué estabas intentando hacer"
+    validations:
+      required: true
+
+  - type: textarea
+    id: esperado
+    attributes:
+      label: "Qué esperabas que ocurriera"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: "Qué ocurre en realidad"
+      description: "Copia el mensaje de error como texto, no sólo como captura."
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: probado
+    attributes:
+      label: "Qué has probado ya"
+    validations:
+      required: true
+
+  - type: input
+    id: rama
+    attributes:
+      label: "Rama y commit"
+      description: "Salida de `git branch --show-current` y `git rev-parse --short HEAD`"
+      placeholder: "h1-sensor / a1b2c3d"
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: "Versión de MCUXpresso for VS Code y del SDK"
+      placeholder: "p. ej. extensión 25.x, SDK 26.06"
+
+  - type: textarea
+    id: capturas
+    attributes:
+      label: "Capturas o trazas"
+      description: "Analizador lógico, depurador, fotos del montaje. Arrástralas aquí."

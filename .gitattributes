@@ -1,0 +1,9 @@
+# Normaliza los finales de linea: en el repositorio siempre LF, cada PC usa el suyo.
+* text=auto
+
+# Binarios: Git no debe tocarlos.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.elf binary
+*.bin binary

@@ -1,0 +1,114 @@
+---
+# Configuración de clang-tidy del repositorio de la asignatura.
+# Reglas de nomenclatura alineadas con la lección L1.1 y con plantillas/estiloC.md.
+#
+# USO desde línea de comandos (auto-fix):
+#   clang-tidy --fix <archivo.c>
+#
+# En VSCode: instala la extensión "clangd" (llvm-vs-code-extensions.vscode-clangd)
+# y aplica los fixes con el menú contextual "Apply fix".
+
+Checks: >
+  -*,
+  clang-diagnostic-*,
+  misc-*,
+  -misc-const-correctness,
+  -misc-include-cleaner,
+  -misc-no-recursion,
+  -misc-unused-parameters,
+  readability-identifier-naming,
+  readability-else-after-return,
+  readability-braces-around-statements,
+  readability-isolate-declaration,
+  readability-magic-numbers,
+  bugprone-macro-parentheses
+
+CheckOptions:
+  # --- Funciones: snake_case con prefijo de módulo ---
+  # Ejemplo: timer_inicializar, uart_transmitir_dato
+  - key:             readability-identifier-naming.FunctionCase
+    value:           lower_case
+  - key:             readability-identifier-naming.FunctionIgnoredRegexp
+    value:           '^(main|SysTick_Handler|.*_IRQHandler|.*_Handler)$'
+
+  # --- Variables locales: snake_case ---
+  # Ejemplo: contador_actual, datos_recibidos
+  - key:             readability-identifier-naming.LocalVariableCase
+    value:           lower_case
+  - key:             readability-identifier-naming.LocalStaticVariableCase
+    value:           lower_case
+  - key:             readability-identifier-naming.LocalConstantCase
+    value:           lower_case
+
+  # --- Variables globales (también las `static` de fichero): snake_case con prefijo g_ ---
+  # Ejemplo: g_flag_timer, g_contador
+  - key:             readability-identifier-naming.GlobalVariableCase
+    value:           lower_case
+  - key:             readability-identifier-naming.GlobalVariablePrefix
+    value:           'g_'
+
+  # --- Parámetros de función: snake_case ---
+  # Ejemplo: dato, num_bytes
+  - key:             readability-identifier-naming.ParameterCase
+    value:           lower_case
+
+  # --- Punteros como parámetros de función: snake_case ---
+  # Ejemplo: ptr_dato, ptr_buffer (el asterisco va junto al nombre: uint8_t *ptr_buffer)
+  - key:             readability-identifier-naming.PointerParameterCase
+    value:           lower_case
+  - key:             readability-identifier-naming.PointerParameterPrefix
+    value:           'ptr_'
+  - key:             readability-identifier-naming.ConstantPointerParameterCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ConstantPointerParameterPrefix
+    value:           'ptr_'
+
+  # --- Constantes como parámetros de función: snake_case ---
+  # Ejemplo: dato, num_bytes
+  - key:             readability-identifier-naming.ConstantParameterCase
+    value:           lower_case
+
+  # --- Miembros de struct/union: snake_case ---
+  # Ejemplo: hora, minuto, tipo
+  - key:             readability-identifier-naming.MemberCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ConstantMemberCase
+    value:           lower_case
+
+
+  # --- Tipos (typedef): snake_case con sufijo _t ---
+  # Ejemplo: hora_t, pieza_tipo_t
+  - key:             readability-identifier-naming.TypedefCase
+    value:           lower_case
+  - key:             readability-identifier-naming.TypedefSuffix
+    value:           '_t'
+
+  # --- Enums: tipo snake_case con _t; constantes kCamelCase ---
+  # Ejemplo: typedef enum { kPiezaPalo, kPiezaCuadrado } pieza_tipo_t;
+  - key:             readability-identifier-naming.EnumCase
+    value:           lower_case
+  - key:             readability-identifier-naming.EnumConstantCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.EnumConstantPrefix
+    value:           'k'
+
+  # --- Macros: UPPER_CASE ---
+  # Ejemplo: LED1_PIN, MAX_CONEXIONES
+  - key:             readability-identifier-naming.MacroDefinitionCase
+    value:           UPPER_CASE
+
+  # --- Constantes con prefijo k: CamelCase ---
+  # Ejemplo: kLed1Pin, kPiezaCuadrada
+  - key:             readability-identifier-naming.ConstantCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.ConstantPrefix
+    value:           'k'
+
+  # --- Opciones adicionales ---
+  - key:             readability-else-after-return.WarnOnUnfixable
+    value:           true
+  - key:             readability-braces-around-statements.ShortStatementLines
+    value:           0
+
+# Solo analizar cabeceras del proyecto, no del sistema
+HeaderFilterRegex: '.*\.(c|h)$'
