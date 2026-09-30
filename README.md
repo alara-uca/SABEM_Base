@@ -81,18 +81,6 @@ licenciados bajo las siguientes licencias:
 - Código fuente (firmware): GNU General Public License version 3 or later [^2] ([`LICENSE.md`](LICENSE.md))
 - Documentación: GNU Free Documentation License, Version 1.3 or later [^3] ([`LICENSE-DOCS.md`](LICENSE-DOCS.md))
 
-[^1]: El hardware del AGV (PCB, esquemático, planos de mecanizado) está licenciado bajo la licencia
-CERN OHL v2.0, que permite el uso, modificación y distribución del hardware siempre que se mantenga
-la misma licencia y se reconozca a los autores originales.
-
-[^2]: El firmware del AGV está licenciado bajo la GNU GPL v3 o posterior, lo que permite el uso,
-modificación y distribución del código fuente siempre que se mantenga la misma licencia y se
-reconozca a los autores originales.
-
-[^3]: La documentación del AGV (manuales, guías, diagramas) está licenciada bajo la GNU FDL v1.3 o
-posterior, lo que permite el uso, modificación y distribución de la documentación siempre que se
-mantenga la misma licencia y se reconozca a los autores originales.
-
 ## 11. Referencias y recursos de aprendizaje
 
 - **Github**
@@ -111,3 +99,15 @@ mantenga la misma licencia y se reconozca a los autores originales.
     - [Página oficial del MCXA156](https://www.nxp.com/products/MCX-A13X-A14X-A15X)
     - Manual de referencia del MCXA156 disponible en el Campus Virtual
 - [Documentación de MCUXpresso](https://mcuxpresso.nxp.com/mcux-vscode/latest/)
+
+[^1]: El hardware del AGV (PCB, esquemático, planos de mecanizado) está licenciado bajo la licencia
+CERN OHL v2.0, que permite el uso, modificación y distribución del hardware siempre que se mantenga
+la misma licencia y se reconozca a los autores originales.
+
+[^2]: El firmware del AGV está licenciado bajo la GNU GPL v3 o posterior, lo que permite el uso,
+modificación y distribución del código fuente siempre que se mantenga la misma licencia y se
+reconozca a los autores originales.
+
+[^3]: La documentación del AGV (manuales, guías, diagramas) está licenciada bajo la GNU FDL v1.3 o
+posterior, lo que permite el uso, modificación y distribución de la documentación siempre que se
+mantenga la misma licencia y se reconozca a los autores originales.

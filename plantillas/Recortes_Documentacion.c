@@ -1,5 +1,5 @@
 /**
- * @file      Nombre del archivo.
+ * @file      Nombre del archivo.c
  * @author    Nombre del autor - Correo electrónico o medio de contacto
  * @date      [Fecha de creación/Fecha de la última modificación]
  * @version   Versión del archivo.
@@ -28,37 +28,56 @@
 bool_t variable; //!< Descripción en linea. Similar a brief
 
 /**
- * @file    ARCHIVO.C O ARCHIVO.H
- * @brief
- * @details
+ * @file    modulo_ejemplo.c
+ * @brief   Ejemplo de documentación para un archivo fuente.
+ * @details Este archivo contiene ejemplos de documentación para funciones,
+ *          enumeraciones, estructuras y definiciones mediante Doxygen.
  *
- * @author
- * @date
- * @version
+ * @author  Nombre Apellido - correo@example.com
+ * @date    2025-01-15
+ * @version 1.0.0
  *
- * @copyright
+ * @copyright Copyright (c) 2025, Organización de ejemplo.
  *
- * @note
+ * @note    Sustituir estos datos de ejemplo por los del módulo real.
  */
 
 /**
- * @brief   FUNCIONES
+ * @brief   Suma dos números enteros.
  *
- * @details
+ * @details Recibe dos valores enteros y devuelve el resultado de sumarlos.
  *
- * @param[in]
- * @param[out]
+ * @param[in] a Primer número entero que se sumará.
+ * @param[in] b Segundo número entero que se sumará.
  *
- * @retval
- * @retval
+ * @return La suma de los parámetros a y b.
  *
- * @return
- *
- * @note
+ * @note    Los parámetros de entrada no se modifican.
  */
+int sumar(int a, int b);
 
 /**
- * @brief ENUM, ESTRUCTURAS O DEFINES
+ * @brief Enumeración de estados de ejemplo.
+ * @details Identifica el estado actual de una operación del módulo.
  */
+typedef enum
+{
+	ESTADO_INACTIVO = 0, //!< La operación no está en curso.
+	ESTADO_ACTIVO,       //!< La operación está en curso.
+	ESTADO_ERROR         //!< Se produjo un error durante la operación.
+} estado_t;
 
-//!< 
+/**
+ * @brief Estructura con los datos de una solicitud.
+ * @details Agrupa los valores necesarios para procesar una solicitud.
+ */
+typedef struct
+{
+	int identificador; //!< Identificador de la solicitud.
+	int prioridad;     //!< Prioridad asignada a la solicitud.
+} solicitud_t;
+
+/** @brief Número máximo de solicitudes almacenadas simultáneamente. */
+#define MAX_SOLICITUDES 10
+
+//!<
