@@ -1,0 +1,29 @@
+config MCUX_COMPONENT_LCD_PANEL
+    bool "Capa baja de la pantalla LCD-PAR-S035 (ST7796S por FlexIO)"
+    select MCUX_COMPONENT_COMUN
+    select MCUX_COMPONENT_driver.common
+    select MCUX_COMPONENT_driver.clock
+    select MCUX_COMPONENT_driver.reset
+    select MCUX_COMPONENT_driver.port
+    select MCUX_COMPONENT_driver.gpio
+    select MCUX_COMPONENT_driver.flexio
+    select MCUX_COMPONENT_driver.flexio_mculcd
+    select MCUX_COMPONENT_driver.flexio_mculcd_edma
+    select MCUX_COMPONENT_driver.st7796s
+    select MCUX_COMPONENT_driver.dbi_flexio_edma
+    help
+      Única dueña del ST7796S y del bus 8080 del FlexIO. La usan lcd, lcd_tactil y lcd_lvgl;
+      no hace falta activarla a mano.
+
+if MCUX_COMPONENT_LCD_PANEL
+
+config LCD_PANEL_CON_FREERTOS
+    bool "Proteger el bus de la pantalla con un mutex de FreeRTOS"
+    default y if MCUX_COMPONENT_middleware.freertos-kernel
+    help
+      No prefix in generated macro
+
+      Se activa sola si el proyecto usa FreeRTOS. Genera la macro global LCD_PANEL_CON_FREERTOS,
+      que leen lcd_panel.c, lcd_lvgl_port.c y lv_conf.h.
+
+endif

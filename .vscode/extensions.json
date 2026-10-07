@@ -3,9 +3,6 @@
     // Obligatorias: base comun para que todo el alumnado trabaje con el mismo flujo.
     "editorconfig.editorconfig",
     "nxpsemiconductors.mcuxpresso",
-    "usernamehw.errorlens",
-
-    // Documentacion: utiles si las practicas, memorias o guiones se mantienen en este repositorio.
     "bierner.markdown-mermaid",
     "davidanson.vscode-markdownlint",
     "tomoki1207.pdf",

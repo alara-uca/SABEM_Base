@@ -1,0 +1,7 @@
+config MCUX_COMPONENT_LCD
+    bool "Biblioteca lcd_ (pantalla LCD-PAR-S035, modo inmediato)"
+    select MCUX_COMPONENT_COMUN
+    select MCUX_COMPONENT_LCD_PANEL
+    help
+      Texto con tres fuentes, figuras y colores en la pantalla de 480 x 320, dibujando
+      directamente en la memoria del ST7796S. Sin LVGL.

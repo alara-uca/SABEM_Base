@@ -1,0 +1,51 @@
+config MCUX_COMPONENT_LCD_LVGL
+    bool "Biblioteca lcd_lvgl_ (modo inmediato emulado sobre LVGL 9.4)"
+    select MCUX_COMPONENT_COMUN
+    select MCUX_COMPONENT_LCD_PANEL
+    select MCUX_COMPONENT_LCD_TACTIL
+    select MCUX_COMPONENT_middleware.lvgl
+    help
+      Mismas funciones que lcd_ con prefijo lcd_lvgl_, pero cada llamada crea un objeto de LVGL.
+      Incluye el port de LVGL (display con búferes parciales + táctil) y su lv_conf.h, que
+      sustituye al de la plantilla del SDK.
+
+if MCUX_COMPONENT_LCD_LVGL
+
+config LV_CONF_PATH
+    string
+    default "lv_conf.h"
+    help
+      No prefix in generated macro
+      Macro value is in quotes
+
+      En el SDK, LVGL se configura por Kconfig (LV_CONF_SKIP=y) e ignora lv_conf.h. Con
+      LV_CONF_PATH definido, LVGL incluye el lv_conf.h de este módulo igualmente: lo que se define
+      en él tiene prioridad y el resto de opciones sale de Kconfig (prj.conf, CONFIG_LV_*).
+
+config LCD_LVGL_PILA_PRINCIPAL
+    hex "Tamaño de la pila principal (bytes)"
+    default 0x1800
+    help
+      Sin RTOS, LVGL dibuja en la pila de main(), y los 2 KiB (0x800) del proyecto no bastan: se
+      desborda y salta un HardFault (pantalla en negro). 0x1800 es lo que usan los ejemplos LVGL
+      sin RTOS de NXP para esta placa (lvgl_demo_widgets_bm). Con FreeRTOS, LVGL dibuja en su
+      propia tarea, pero la pila principal la siguen usando las interrupciones.
+
+config LCD_LVGL_PORT_SYSTICK_PROPIO
+    int "Sin FreeRTOS: el port usa el SysTick como reloj de LVGL (1 = sí, 0 = no)"
+    range 0 1
+    default 1
+    help
+      No prefix in generated macro
+
+      Con 1, lcd_lvgl_port define SysTick_Handler(). Si el programa ya usa el SysTick, poner 0 y
+      llamar a lcd_lvgl_port_contar_1ms() cada milisegundo. Con FreeRTOS no se usa.
+
+config LCD_LVGL_PORT_INTERCAMBIAR_BYTES
+    int "Intercambiar los bytes de cada píxel RGB565 antes de enviarlos (1 = sí, 0 = no)"
+    range 0 1
+    default 0
+    help
+      No prefix in generated macro
+
+endif

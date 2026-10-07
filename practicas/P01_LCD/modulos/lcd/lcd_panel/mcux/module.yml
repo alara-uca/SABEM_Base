@@ -1,0 +1,7 @@
+# Módulo externo del SDK (ver modulos/README.md). Rutas relativas a la carpeta del módulo.
+name: lcd_panel
+build:
+  cmake: mcux
+  kconfig: mcux/Kconfig
+  depends:
+    - comun

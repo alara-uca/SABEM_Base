@@ -1,0 +1,17 @@
+{
+  "version": "25.3",
+  "toolchainPath": "${userHome}/.mcuxpressotools/arm-gnu-toolchain-14.2.rel1-mingw-w64-x86_64-arm-none-eabi",
+  "linkedProjects": [],
+  "trustZoneType": "none",
+  "multicoreType": "none",
+  "projectType": "sdk-v2-freestanding",
+  "projectName": "proyecto_base",
+  "sdk": {
+    "path": "${userHome}/.mcuxpressotools/frdm_mcxa156_sdk",
+    "version": "26.6.0",
+    "boardId": "frdmmcxa156",
+    "deviceId": "MCXA156",
+    "coreId": "cm33_core0",
+    "partId": "MCXA156VLL"
+  }
+}

@@ -1,0 +1,5 @@
+config MCUX_COMPONENT_COMUN
+    bool "Definiciones comunes de la asignatura (tipos.h)"
+    select MCUX_COMPONENT_driver.common
+    help
+      Tipos y macros comunes a todos los módulos. Lo activan solos los módulos que lo necesitan.

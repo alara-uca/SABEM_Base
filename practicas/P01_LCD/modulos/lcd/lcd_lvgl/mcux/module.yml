@@ -1,0 +1,9 @@
+# Módulo externo del SDK (ver modulos/README.md). Rutas relativas a la carpeta del módulo.
+name: lcd_lvgl
+build:
+  cmake: mcux
+  kconfig: mcux/Kconfig
+  depends:
+    - comun
+    - lcd_panel
+    - lcd_tactil

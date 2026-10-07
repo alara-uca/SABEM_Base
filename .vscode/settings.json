@@ -70,5 +70,7 @@
       "strings": "off",
       "other": "off"
     }
-  }
+  },
+  "cmake.sourceDirectory": "C:/GitHub/SABEM_Base/practicas/P01_LCD",
+  "cmake.autoDetectSourceDirectory": false
 }

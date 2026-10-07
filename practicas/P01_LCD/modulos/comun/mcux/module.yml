@@ -1,0 +1,6 @@
+# Módulo externo del SDK (ver develop/sdk/integration.md, "Integrate Other CMake Build System").
+# Rutas relativas a la carpeta del módulo.
+name: comun
+build:
+  cmake: mcux
+  kconfig: mcux/Kconfig

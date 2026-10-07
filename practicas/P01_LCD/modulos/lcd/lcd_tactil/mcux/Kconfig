@@ -1,0 +1,13 @@
+config MCUX_COMPONENT_LCD_TACTIL
+    bool "Panel táctil GT911 de la pantalla LCD-PAR-S035 (LPI2C2)"
+    select MCUX_COMPONENT_COMUN
+    select MCUX_COMPONENT_LCD_PANEL
+    select MCUX_COMPONENT_driver.common
+    select MCUX_COMPONENT_driver.clock
+    select MCUX_COMPONENT_driver.reset
+    select MCUX_COMPONENT_driver.port
+    select MCUX_COMPONENT_driver.lpi2c
+    select MCUX_COMPONENT_driver.gt911
+    help
+      lcd_tactil_leer(&x, &y) en modo inmediato. Necesita lcd_panel porque el reset del GT911
+      va unido al del ST7796S. También es el que usa lcd_lvgl como dispositivo de entrada.

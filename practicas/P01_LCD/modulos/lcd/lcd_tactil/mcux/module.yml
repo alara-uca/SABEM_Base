@@ -1,0 +1,8 @@
+# Módulo externo del SDK (ver modulos/README.md). Rutas relativas a la carpeta del módulo.
+name: lcd_tactil
+build:
+  cmake: mcux
+  kconfig: mcux/Kconfig
+  depends:
+    - comun
+    - lcd_panel

@@ -1,0 +1,16 @@
+flexio_mculcd_edma_transfer:
+  boards:
+    frdmmcxa156: []
+  contents:
+    document:
+      brief: Proyecto base de la asignatura para trabajar con los modulos (modulos/), sobre la
+        FRDM-MCXA156 y la pantalla LCD-PAR-S035. Parte del ejemplo flexio_mculcd_edma_transfer del SDK.
+      category: driver_examples/flexio
+      example_readme:
+      - examples/driver_examples/flexio/mculcd/edma_transfer/readme.md
+      - ${board_root}/${board}/driver_examples/flexio/mculcd/edma_transfer/example_board_readme.md
+      - ${board_root}/${board}/examples_shared_readme.md
+      name: proyecto_base${core_id_suffix_name}
+    meta_path: examples/driver_examples/flexio/mculcd/edma_transfer
+    project-root-path: boards/${board}/driver_examples/flexio/mculcd/edma_transfer/${multicore_foldername}
+  section-type: freestanding_application
