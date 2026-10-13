@@ -17,6 +17,13 @@ release/
 # --- Carpeta auxiliar de la extension ---
 __repo__/
 
+# --- MCUXpresso Config Tools ---
+# cfg_tools/ lo regeneran la extension y Config Tools con rutas absolutas de vuestro PC.
+# El .mex y board/ (pin_mux, clock_config, peripherals) SI se versionan.
+cfg_tools/
+# Copia del fichero anterior que deja Config Tools en cada "Update Code".
+*.bak
+
 # --- Registros ---
 *.log
 

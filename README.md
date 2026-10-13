@@ -13,7 +13,7 @@
 >
 > **Segundo integrante:** aceptad la invitación y clonad el repositorio (`git clone https://github.com/<usuario>/<repositorio>.git`).
 >
-> **Después:** instalad el entorno con `docs/Guia_instalacion_VSCode_MCUXpresso.md`, importad el proyecto en `firmware/` (ver `firmware/README.md`) y trabajad con una rama por hito y *Pull Request* (`COMMIT_CONVENTIONS.md`). Si os atascáis, abrid un *issue* con la plantilla de ayuda y mencionad a `@ale87jan`.
+> **Después:** instalad el entorno con `docs/Guia_instalacion_VSCode_MCUXpresso.md`, importad el proyecto en `firmware/` (ver `firmware/README.md`); los proyectos de cada práctica van en `Practicas/` (ver `Practicas/README.md`). Trabajad con una rama por hito y *Pull Request* (`COMMIT_CONVENTIONS.md`). Si os atascáis, abrid un *issue* con la plantilla de ayuda y mencionad a `@ale87jan`.
 >
 > **No hagáis *fork* de esta plantilla:** un *fork* de un repositorio público no se puede hacer privado.
 
