@@ -89,3 +89,21 @@ son unos 0,8 mm de posicion falsa. Con M=8 el ruido baja a +-14 mV.
 
 La primera línea sigue el formato `tipo(scope): descripción`; el resto de la norma sobre *commits*
 atómicos y el "por qué" en el cuerpo es la misma que ya se vio en clase.
+
+## Atribución cuando el mensaje lo genera la IA
+
+Si el mensaje lo ha generado GitHub Copilot (con la chispa del panel *Source Control* o con el agente
+de *commits*), termina con una línea en blanco y esta línea final, que va después del cuerpo si lo hay:
+
+```text
+:star:nuevo(sensor): anadir lectura simulada del sensor de guiado
+
+Assisted-by: GitHub Copilot (GPT-5)
+```
+
+* Entre paréntesis va el modelo que se ha usado, si se conoce. Si no, se escribe solo
+  `Assisted-by: GitHub Copilot`. No se inventa el modelo.
+* Si has escrito el mensaje tú a mano, no se añade.
+* Los 72 caracteres de límite se aplican a la primera línea, no a esta.
+* Esta línea no sustituye a la declaración de IAG del *Pull Request* ni a la sección «Agradecimientos y
+  Herramientas» del `README.md`.
