@@ -28,6 +28,9 @@
     "scminput": false,
   },
   "chat.tips.enabled": true,
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    { "file": ".github/commit-message.md" },
+  ],
 
   "workbench.startupEditor": "none",
   "workbench.productIconTheme": "fluent-icons",
