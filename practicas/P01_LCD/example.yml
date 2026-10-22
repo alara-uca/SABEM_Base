@@ -10,7 +10,7 @@ flexio_mculcd_edma_transfer:
       - examples/driver_examples/flexio/mculcd/edma_transfer/readme.md
       - ${board_root}/${board}/driver_examples/flexio/mculcd/edma_transfer/example_board_readme.md
       - ${board_root}/${board}/examples_shared_readme.md
-      name: proyecto_base${core_id_suffix_name}
+      name: P01_LCD${core_id_suffix_name}
     meta_path: examples/driver_examples/flexio/mculcd/edma_transfer
     project-root-path: boards/${board}/driver_examples/flexio/mculcd/edma_transfer/${multicore_foldername}
   section-type: freestanding_application
