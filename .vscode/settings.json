@@ -28,6 +28,18 @@
     "scminput": false,
   },
   "chat.tips.enabled": true,
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    { "file": ".github/commit-message.md" },
+  ],
+  // Solo se autoaprueban formas exactas (expresiones regulares). Todo lo demas pide confirmacion:
+  // commit, push, stash, rebase, clean, reset con argumentos, restore sin --staged, add de rutas
+  // que empiecen por "." o "-" (.env, ., -A, -u...), etc.
+  "chat.tools.terminal.autoApprove": {
+    "/^git (status|diff|log|show|rev-parse)\\b(?!.*--output)/": true,
+    "/^git reset$/": true,
+    "/^git add (-p )?[^\\s.;&|-][^\\s;&|]*( [^\\s.;&|-][^\\s;&|]*)*$/": true,
+    "/^git restore --staged [^\\s.;&|-][^\\s;&|]*$/": true,
+  },
 
   "workbench.startupEditor": "none",
   "workbench.productIconTheme": "fluent-icons",
