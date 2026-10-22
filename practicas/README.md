@@ -8,7 +8,9 @@ VS Code: se abre por separado.
 | `P01_Interrupciones/` | P01, ejercicios 1 y 2 | Vuestro proyecto creado con Config Tools: pulsadores por interrupción |
 | `P01_LCD/` | P01, ejercicios 3, 4, 5 y 7 | El **proyecto base** de la asignatura; al final, con el módulo `error` y el panel |
 | `P01_LVGL/` | P01, ejercicio 6 | Copia de `P01_LCD/` para probar LVGL |
-| `PRUEBAS.md` | P01 | La tabla de pruebas de la práctica |
+
+El diario de cada práctica no va aquí, sino en `docs/` (raíz del repositorio), con el número de la
+práctica como nombre: `docs/P01.md`, `docs/P03.md`, etc.
 
 `P01_LCD/` ya viene con el proyecto base. Si vuestro repositorio se creó antes de que se
 añadiera, descargad el ZIP del Campus Virtual y copiad su contenido en `P01_LCD/`.
