@@ -1,18 +1,12 @@
 ---
-# Configuración de clang-tidy del repositorio de la asignatura.
-# Reglas de nomenclatura alineadas con la lección L1.1 y con plantillas/estiloC.md.
-#
-# USO desde línea de comandos (auto-fix):
-#   clang-tidy --fix <archivo.c>
-#
-# En VSCode: instala la extensión "clangd" (llvm-vs-code-extensions.vscode-clangd)
-# y aplica los fixes con el menú contextual "Apply fix".
+# Configuración de clang-tidy para el proyecto NXP MCXA156
 
 Checks: >
   -*,
   clang-diagnostic-*,
   misc-*,
   -misc-const-correctness,
+  -misc-header-include-cycle,
   -misc-include-cleaner,
   -misc-no-recursion,
   -misc-unused-parameters,
@@ -29,7 +23,7 @@ CheckOptions:
   - key:             readability-identifier-naming.FunctionCase
     value:           lower_case
   - key:             readability-identifier-naming.FunctionIgnoredRegexp
-    value:           '^(main|SysTick_Handler|.*_IRQHandler|.*_Handler)$'
+    value:           '^(main|BOARD_.*|.*_IRQHandler|.*_DriverIRQHandler|.*_Handler)$'
 
   # --- Variables locales: snake_case ---
   # Ejemplo: contador_actual, datos_recibidos
@@ -40,7 +34,7 @@ CheckOptions:
   - key:             readability-identifier-naming.LocalConstantCase
     value:           lower_case
 
-  # --- Variables globales (también las `static` de fichero): snake_case con prefijo g_ ---
+  # --- Variables globales: snake_case con prefijo g_ ---
   # Ejemplo: g_flag_timer, g_contador
   - key:             readability-identifier-naming.GlobalVariableCase
     value:           lower_case
@@ -53,7 +47,7 @@ CheckOptions:
     value:           lower_case
 
   # --- Punteros como parámetros de función: snake_case ---
-  # Ejemplo: ptr_dato, ptr_buffer (el asterisco va junto al nombre: uint8_t *ptr_buffer)
+  # Ejemplo: ptr_dato, ptr_buffer
   - key:             readability-identifier-naming.PointerParameterCase
     value:           lower_case
   - key:             readability-identifier-naming.PointerParameterPrefix
@@ -93,9 +87,13 @@ CheckOptions:
     value:           'k'
 
   # --- Macros: UPPER_CASE ---
-  # Ejemplo: LED1_PIN, MAX_CONEXIONES
+  # Ejemplo: LED1_PIN, GLCD_PIXELES_POR_LINEA
   - key:             readability-identifier-naming.MacroDefinitionCase
     value:           UPPER_CASE
+  # Las guardas de cabecera con guion bajo (APP_H_, _MCUX_CONFIG_H_) son las del SDK y de Config Tools.
+  # Los 256 patrones de fuente.h (________ … XXXXXXXX) tampoco se renombran: clang-tidy les quitaría los guiones bajos.
+  - key:             readability-identifier-naming.MacroDefinitionIgnoredRegexp
+    value:           '^(_?[A-Z0-9_]+_H_?|[_X]{8})$'
 
   # --- Constantes con prefijo k: CamelCase ---
   # Ejemplo: kLed1Pin, kPiezaCuadrada
@@ -110,5 +108,7 @@ CheckOptions:
   - key:             readability-braces-around-statements.ShortStatementLines
     value:           0
 
-# Solo analizar cabeceras del proyecto, no del sistema
-HeaderFilterRegex: '.*\.(c|h)$'
+# Cabeceras que se analizan: las de la carpeta del main y las de sus modulos/, no las del sistema.
+# Se excluyen board/ y frdmmcxa156/ (los genera Config Tools o vienen del SDK) y el propio SDK (mcuxsdk/ o Referencias/SDK/).
+HeaderFilterRegex: '.*\.h$'
+ExcludeHeaderFilterRegex: '(^|[/\])(board|frdmmcxa156|mcuxsdk|SDK)[/\]'
