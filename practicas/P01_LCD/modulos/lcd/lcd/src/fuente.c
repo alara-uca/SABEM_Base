@@ -18,19 +18,20 @@
  * la de 12x24 —los 4 bits de menor peso del segundo byte no se usan— y 2 en la de 16x32), con el
  * píxel de más a la izquierda en el bit de mayor peso. Las filas van de arriba abajo.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @author      Alejandro Lara Doña - alejandro.lara(at)uca.es | Eduardo Romero
  * @date        2014/2026
- * @version     3.0
+ * @version   3.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "fuente.h"
 #include "tipos.h"
 
+// clang-format off
 // ===== Fuente - Fuente de 8x16 pixeles =====
 //! Patrones de puntos de la fuente de 8x16 píxeles: 16 bytes por carácter.
-static const uint8_t fuente_8x16_datos[] = {
+static const uint8_t kFuente8x16Datos[] = {
   // 32 (0x20) ' '
   ________,
   ________,
@@ -2394,7 +2395,7 @@ static const uint8_t fuente_8x16_datos[] = {
   ________,
   ________,
   ________,
-  // 171 (0xAB) «
+  // 171 (0xAB) "
   ________,
   ________,
   ________,
@@ -2666,7 +2667,7 @@ static const uint8_t fuente_8x16_datos[] = {
   ________,
   ________,
   ________,
-  // 187 (0xBB) »
+  // 187 (0xBB) "
   ________,
   ________,
   ________,
@@ -3840,18 +3841,17 @@ static const uint8_t fuente_8x16_datos[] = {
   ___X____,
   __XX____
 };
-
-const fuente_t fuente_8x16 = {
-  .pixeles_ancho = 8u,
-  .pixeles_alto = 16u,
-  .primer_caracter = 32u,
-  .ultimo_caracter = 255u,
-  .datos = fuente_8x16_datos
-};
+// clang-format on
+const fuente_t kFuente8x16 = {.pixeles_ancho   = 8u,
+                              .pixeles_alto    = 16u,
+                              .primer_caracter = 32u,
+                              .ultimo_caracter = 255u,
+                              .datos           = kFuente8x16Datos};
+// clang-format off
 
 // ===== Fuente - Fuente de 12x24 pixeles =====
 //! Patrones de puntos de la fuente de 12x24 píxeles: 48 bytes por carácter.
-static const uint8_t fuente_12x24_datos[] = {
+static const uint8_t kFuente12x24Datos[] = {
   // 32 (0x20) ' '
   ________, ________,
   ________, ________,
@@ -7327,7 +7327,7 @@ static const uint8_t fuente_12x24_datos[] = {
   ________, ________,
   ________, ________,
   ________, ________,
-  // 171 (0xAB) «
+  // 171 (0xAB) "
   ________, ________,
   ________, ________,
   ________, ________,
@@ -7727,7 +7727,7 @@ static const uint8_t fuente_12x24_datos[] = {
   ________, ________,
   ________, ________,
   ________, ________,
-  // 187 (0xBB) »
+  // 187 (0xBB) "
   ________, ________,
   ________, ________,
   ________, ________,
@@ -9453,18 +9453,16 @@ static const uint8_t fuente_12x24_datos[] = {
   __XXX___, ________,
   ________, ________
 };
-
-const fuente_t fuente_12x24 = {
-  .pixeles_ancho = 12u,
-  .pixeles_alto = 24u,
-  .primer_caracter = 32u,
-  .ultimo_caracter = 255u,
-  .datos = fuente_12x24_datos
-};
-
+// clang-format on
+const fuente_t kFuente12x24 = {.pixeles_ancho   = 12u,
+                               .pixeles_alto    = 24u,
+                               .primer_caracter = 32u,
+                               .ultimo_caracter = 255u,
+                               .datos           = kFuente12x24Datos};
+// clang-format off
 // ===== Fuente - Fuente de 16x32 pixeles =====
 //! Patrones de puntos de la fuente de 16x32 píxeles: 64 bytes por carácter.
-static const uint8_t fuente_16x32_datos[] = {
+static const uint8_t kFuente16x32Datos[] = {
   // 32 (0x20) ' '
   ________, ________,
   ________, ________,
@@ -14052,7 +14050,7 @@ static const uint8_t fuente_16x32_datos[] = {
   ________, ________,
   ________, ________,
   ________, ________,
-  // 171 (0xAB) «
+  // 171 (0xAB) "
   ________, ________,
   ________, ________,
   ________, ________,
@@ -14580,7 +14578,7 @@ static const uint8_t fuente_16x32_datos[] = {
   ________, ________,
   ________, ________,
   ________, ________,
-  // 187 (0xBB) »
+  // 187 (0xBB) "
   ________, ________,
   ________, ________,
   ________, ________,
@@ -16859,10 +16857,9 @@ static const uint8_t fuente_16x32_datos[] = {
   ________, ________
 };
 
-const fuente_t fuente_16x32 = {
-  .pixeles_ancho = 16u,
-  .pixeles_alto = 32u,
-  .primer_caracter = 32u,
-  .ultimo_caracter = 255u,
-  .datos = fuente_16x32_datos
-};
+// clang-format on
+const fuente_t kFuente16x32 = {.pixeles_ancho   = 16u,
+                               .pixeles_alto    = 32u,
+                               .primer_caracter = 32u,
+                               .ultimo_caracter = 255u,
+                               .datos           = kFuente16x32Datos};

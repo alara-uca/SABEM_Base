@@ -2,11 +2,11 @@
  * @file    error.h
  * @brief   Librería para el tratamiento de errores.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @author      Alejandro Lara Doña - alejandro.lara(at)uca.es | Eduardo Romero
  * @date        2014/2025
- * @version     2.0
+ * @version   2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef ERROR_H

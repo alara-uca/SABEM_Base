@@ -19,7 +19,7 @@ la extensión MCUXpresso para VS Code.
 ```text
 modulos/
 ├── README.md             ← este fichero: cómo funcionan los módulos
-├── comun/                ← tipos.h
+├── comun/                ← tipos.h y macros de PRINTF (activar siempre)
 ├── error/                ← ERROR(), ASSERT()
 └── lcd/                  ← biblioteca de la pantalla LCD-PAR-S035 (ver lcd/README.md)
     ├── README.md
@@ -31,7 +31,7 @@ modulos/
 
 | Módulo | Carpeta | Símbolo | Contenido | Depende de |
 | --- | --- | --- | --- | --- |
-| `comun` | `comun/` | `MCUX_COMPONENT_COMUN` | `tipos.h` | `driver.common` |
+| `comun` | `comun/` | `MCUX_COMPONENT_COMUN` | `tipos.h`; macros `PRINTF_FLOAT_ENABLE=1` y `PRINTF_ADVANCED_ENABLE=1` (siempre juntas, ver [comun/README.md](comun/README.md)) | `driver.common` |
 | `error` | `error/` | `MCUX_COMPONENT_ERROR` | `ERROR()`, `ASSERT()`, `parar_con_error()` | `comun`. Usa `lcd` o `lcd_lvgl` si están activos, pero no los necesita |
 | `lcd_panel` | `lcd/lcd_panel/` | `MCUX_COMPONENT_LCD_PANEL` | Capa baja de la pantalla (ST7796S por FlexIO) | `comun`; drivers del SDK |
 | `lcd` | `lcd/lcd/` | `MCUX_COMPONENT_LCD` | `lcd_*`: modo inmediato | `comun`, `lcd_panel` |
@@ -285,5 +285,10 @@ Pruebas, desde una caché limpia (`debug/` borrada) con `cmake --preset debug` y
 - Si `main.c` usa un módulo que está desactivado, el enlace falla con referencias sin definir.
 - El formato de `prj.conf` no admite comentarios al final de una línea
   (`CONFIG_X=y  # comentario`): el comentario tiene que ir en su propia línea.
+- **`%f` en `PRINTF`.** `debug_console_lite` lo ignora (sale vacío) si no está `PRINTF_FLOAT_ENABLE`,
+  y con solo esa macro **imprime los `float` negativos sin signo**. Las dos macros
+  (`PRINTF_FLOAT_ENABLE` y `PRINTF_ADVANCED_ENABLE`) las define el módulo `comun` y **tienen que ir
+  siempre juntas**, en una sola palabra `CC` de `mcux_add_macro`. Por eso todos los proyectos llevan
+  `CONFIG_MCUX_COMPONENT_COMUN=y` en `prj.conf`. Detalles en [comun/README.md](comun/README.md).
 - **Rutas largas en Windows.** Si la carpeta del proyecto tiene una ruta larga, se puede superar
   el límite de 260 caracteres (con LVGL es fácil; ver [lcd/README.md](lcd/README.md)).

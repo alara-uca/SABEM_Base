@@ -15,13 +15,13 @@
  * memoria y le envía una **ráfaga** de píxeles, a través de lcd_panel. Lo que se dibuja se queda
  * en la pantalla hasta que se dibuje otra cosa encima.
  *
- * «Modo inmediato» quiere decir que cada llamada dibuja en el acto y se olvida: la biblioteca no
+ * "Modo inmediato" quiere decir que cada llamada dibuja en el acto y se olvida: la biblioteca no
  * recuerda qué hay en la pantalla. Para escribir un número que cambia hay que escribirlo siempre
  * en el mismo sitio, con color de fondo, para que tape al anterior.
  *
  * Coordenadas: el origen (0, 0) es la esquina superior izquierda, con la pantalla apaisada en
  * la misma orientación que los ejemplos LVGL del SDK; x crece hacia la derecha, hasta
- * LCD_X_MAXIMO (479), e y hacia abajo, hasta LCD_Y_MAXIMO (319).
+ * kLCDXMaximo (479), e y hacia abajo, hasta kLCDYMaximo (319).
  *
  * Texto: las fuentes contienen los caracteres del 32 al 255 de la codificación **ISO-8859-1
  * (Latin-1)**, que incluye las letras acentuadas, la ñ, ¡, ¿ y º. Como los ficheros fuente se
@@ -37,23 +37,28 @@
  * @note    Se puede combinar con LVGL (lcd_lvgl_*) sólo en zonas distintas de la pantalla: LVGL
  * repinta lo que considera suyo y borraría lo dibujado aquí.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @author      Alejandro Lara Doña - alejandro.lara(at)uca.es | Eduardo Romero
  * @date        2014/2026
- * @version     3.0
+ * @version   3.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
+ */
+
+/**
+ * @defgroup  LCD LCD - Dibujo en modo inmediato
+ * @brief     Funciones lcd_* de dibujo directo sobre la pantalla LCD-PAR-S035.
  */
 
 #ifndef LCD_H
 #define LCD_H
 
-#include "tipos.h"
 #include "lcd_panel.h"
+#include "tipos.h"
 #include "lcd_colores.h"
 
 // ===== LCD - Macros Publicas =====
 /**
- * @defgroup  Lcd_Fuentes LCD - Fuentes disponibles
+ * @defgroup  LCD_Fuentes LCD - Fuentes disponibles
  * @ingroup   LCD
  * @brief     Números de las fuentes de mapa de bits, los mismos que en glcd.h.
  *
@@ -62,18 +67,18 @@
  * @{
  */
 #ifndef FUENTE8X16
-#define FUENTE8X16      0u  //!< Fuente pequeña (8 píxeles de ancho y 16 de alto).
+  #define FUENTE8X16 0u  //!< Fuente pequeña (8 píxeles de ancho y 16 de alto).
 #endif
 #ifndef FUENTE12X24
-#define FUENTE12X24     1u  //!< Fuente mediana (12 píxeles de ancho y 24 de alto).
+  #define FUENTE12X24 1u  //!< Fuente mediana (12 píxeles de ancho y 24 de alto).
 #endif
 #ifndef FUENTE16X32
-#define FUENTE16X32     2u  //!< Fuente grande (16 píxeles de ancho y 32 de alto).
+  #define FUENTE16X32 2u  //!< Fuente grande (16 píxeles de ancho y 32 de alto).
 #endif
 #ifndef NUMERO_FUENTES
-#define NUMERO_FUENTES  3u  //!< Número de fuentes disponibles (nombre de glcd.h).
+  #define NUMERO_FUENTES 3u  //!< Número de fuentes disponibles (nombre de glcd.h).
 #endif
-#define LCD_NUMERO_FUENTES  3u  //!< Número de fuentes disponibles.
+#define LCD_NUMERO_FUENTES 3u  //!< Número de fuentes disponibles.
 //!@}
 
 /**
@@ -81,7 +86,7 @@
  * lcd_xprintf(), incluido el terminador. Lo que sobre se pierde.
  * @ingroup LCD
  */
-#define LCD_MAX_TEXTO_PRINTF  128u
+#define LCD_MAX_TEXTO_PRINTF 128u
 
 // ===== LCD - Constantes Publicas =====
 /**
@@ -89,12 +94,12 @@
  * @ingroup LCD
  */
 enum lcd_tamano {
-  LCD_TAMANO_X = LCD_PANEL_ANCHO,     //!< Número de píxeles en horizontal.
-  LCD_TAMANO_Y = LCD_PANEL_ALTO,      //!< Número de píxeles en vertical.
-  LCD_X_MINIMO = 0,                   //!< Píxel inicial en horizontal.
-  LCD_X_MAXIMO = (LCD_TAMANO_X - 1),  //!< Píxel máximo en horizontal.
-  LCD_Y_MINIMO = 0,                   //!< Píxel inicial en vertical.
-  LCD_Y_MAXIMO = (LCD_TAMANO_Y - 1)   //!< Píxel máximo en vertical.
+  kLCDTamanoX = LCD_PANEL_ANCHO,    //!< Número de píxeles en horizontal.
+  kLCDTamanoY = LCD_PANEL_ALTO,     //!< Número de píxeles en vertical.
+  kLCDXMinimo = 0,                  //!< Píxel inicial en horizontal.
+  kLCDXMaximo = (kLCDTamanoX - 1),  //!< Píxel máximo en horizontal.
+  kLCDYMinimo = 0,                  //!< Píxel inicial en vertical.
+  kLCDYMaximo = (kLCDTamanoY - 1)   //!< Píxel máximo en vertical.
 };
 
 // ===== LCD - Funciones Publicas =====
@@ -126,14 +131,14 @@ void lcd_borrar(uint16_t color);
  * llega más abajo de la última línea, vuelve arriba; si además el desplazamiento automático está
  * activado, borra antes la pantalla (ver lcd_desplazar()).
  *
- * @param[in]   format  Cadena de formato, como la de printf.
- * @param[in]   ...     Argumentos adicionales, como en printf.
+ * @param[in]   ptr_format  Cadena de formato, como la de printf.
+ * @param[in]   ...         Argumentos adicionales, como en printf.
  *
  * @return  El número de caracteres que ha generado el formato (como vsnprintf), o un número
  * negativo si hay un error de formato. Si el texto pasa de LCD_MAX_TEXTO_PRINTF - 1 bytes, sólo
  * se imprimen los primeros.
  */
-int32_t lcd_printf(const char *format, ...);
+int32_t lcd_printf(const char *ptr_format, ...);
 
 /**
  * @brief   Función parecida a lcd_printf pero indicando las coordenadas donde aparece el texto,
@@ -145,7 +150,7 @@ int32_t lcd_printf(const char *format, ...);
  * @param[in]   color         Color con el que se imprimirá el texto.
  * @param[in]   color_fondo   Color de fondo con el que se imprimirá el texto.
  * @param[in]   fuente        Fuente de caracteres con la que se imprimirá.
- * @param[in]   format        Cadena de formato, como la de printf.
+ * @param[in]   ptr_format    Cadena de formato, como la de printf.
  * @param[in]   ...           Argumentos adicionales, como en printf.
  *
  * @return  Igual que lcd_printf().
@@ -153,7 +158,7 @@ int32_t lcd_printf(const char *format, ...);
  * @note  No se modifica la configuración actual de colores, fuente o posición de lcd_printf().
  */
 int32_t lcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint32_t fuente,
-                    const char *format, ...);
+                    const char *ptr_format, ...);
 
 /**
  * @brief   Imprime un carácter en pantalla. No se interpretan caracteres de control.
@@ -184,11 +189,11 @@ void lcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t color
  * @param[in]   color         Color con el que se imprimirá el texto.
  * @param[in]   color_fondo   Color de fondo con el que se imprimirá el texto.
  * @param[in]   fuente        Fuente de caracteres con la que se imprimirá.
- * @param[in]   str           Puntero a la cadena a imprimir (UTF-8 o ASCII). Sólo se imprimirá si
+ * @param[in]   ptr_str       Puntero a la cadena a imprimir (UTF-8 o ASCII). Sólo se imprimirá si
  *                            las coordenadas (x, y) están dentro de la pantalla.
  */
 void lcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint32_t fuente,
-               const char *str);
+               const char *ptr_str);
 
 /**
  * @brief   Fija el color que se usará para la salida de texto con lcd_printf.

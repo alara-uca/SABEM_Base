@@ -13,4 +13,7 @@ if(CONFIG_MCUX_COMPONENT_LCD)
         BASE_PATH ${CMAKE_CURRENT_LIST_DIR}/..
         INCLUDES inc
     )
+    mcux_add_macro(
+      CC "-DBOARD_LCD_S035=1"
+    )
 endif()

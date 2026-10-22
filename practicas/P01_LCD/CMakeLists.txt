@@ -25,7 +25,7 @@ endforeach()
 
 include(${SdkRootDirPath}/cmake/extension/mcux.cmake)
 
-project(proyecto_base LANGUAGES C CXX ASM PROJECT_BOARD_PORT_PATH ${board_root}/${board}/driver_examples/flexio/mculcd/edma_transfer)
+project(P01_LCD LANGUAGES C CXX ASM PROJECT_BOARD_PORT_PATH ${board_root}/${board}/driver_examples/flexio/mculcd/edma_transfer)
 
 include(${SdkRootDirPath}/CMakeLists.txt)
 

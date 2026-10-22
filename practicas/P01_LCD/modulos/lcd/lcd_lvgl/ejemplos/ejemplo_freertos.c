@@ -19,7 +19,7 @@
  * lv_lock()) ya vale 1 en la configuración de FreeRTOS que genera el SDK.
  *
  * Proyecto: copiarlo como main.c de un proyecto con la carpeta modulos/ y activar en prj.conf el
- * módulo y FreeRTOS (ver modulos/lcd/README.md, apartado «FreeRTOS»):
+ * módulo y FreeRTOS (ver modulos/lcd/README.md, apartado "FreeRTOS"):
  *     CONFIG_MCUX_COMPONENT_LCD_LVGL=y
  *     CONFIG_MCUX_COMPONENT_middleware.freertos-kernel=y
  *     CONFIG_MCUX_COMPONENT_middleware.freertos-kernel.cm33_non_trustzone=y
@@ -27,11 +27,11 @@
  *     CONFIG_configTOTAL_HEAP_SIZE=24576
  * Probado en la placa con frdmmcxa156_flexio_mculcd_edma_transfer, táctil incluido.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2026
- * @version     1.0
+ * @author    Alejandro Lara Doña - alejandro.lara(at)uca.es
+ * @date      2026
+ * @version   1.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef LCD_PANEL_CON_FREERTOS
@@ -105,7 +105,7 @@ static void tarea_interfaz(void *parametros) {
 
   // Con FreeRTOS, la inicialización se hace ya dentro de una tarea (usa el mutex del bus).
   lcd_lvgl_inicializar();
-  lcd_lvgl_xprintf(10, 10, BLANCO, NEGRO, FUENTE16X32, "SABM - FreeRTOS + LVGL");
+  lcd_lvgl_xprintf(10, 10, BLANCO, NEGRO, FUENTE16X32, "SABEM - FreeRTOS + LVGL");
   lcd_lvgl_linea(10, 50, 470, 50, GRIS_CLARO);
 
   // Widget nativo: un botón con su texto.
