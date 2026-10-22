@@ -8,7 +8,7 @@
  * @date    [Fecha de creación del módulo/Fecha de la última modificación]
  * @version 1.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "<modulo>.h"

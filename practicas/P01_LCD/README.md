@@ -8,11 +8,11 @@ carpeta `modulos/` registrada en el sistema de compilación. Vosotros sólo ten�
 ## Qué hay en la carpeta
 
 ```text
-proyecto_base/
+P01_LCD/
 ├── main.c                ← el programa (al principio, el ejemplo de la pantalla: ejemplo_lcd.c)
 ├── prj.conf              ← QUÉ MÓDULOS SE ACTIVAN (vacío al principio)
 ├── modulos/              ← las bibliotecas de la asignatura: comun/ y lcd/
-├── proyecto_base.mex     ← configuración de Config Tools: pines, relojes y periféricos
+├── P01_LCD.mex           ← configuración de Config Tools: pines, relojes y periféricos
 ├── board/                ← código GENERADO por Config Tools a partir del .mex (no editar a mano)
 ├── hardware_init.c       ← BOARD_InitHardware(): aplica lo de Config Tools y arranca la consola
 ├── app.h                 ← prototipo de BOARD_InitHardware()

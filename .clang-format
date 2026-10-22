@@ -1,6 +1,4 @@
-# Configuración de clang-format para LPC4088-Documentacion
-# Basado en "Programación en C - Guía de Estilo.pdf"
-# Proyecto educativo - Universidad de Cádiz
+# Configuración de clang-format para NXP MCXA156
 
 # Estilo base: K&R modificado
 BasedOnStyle: Google
@@ -76,7 +74,8 @@ AlignConsecutiveMacros:
 
 AlignEscapedNewlines: Right
 AlignOperands: Align
-AlignTrailingComments: Always
+AlignTrailingComments:
+  Kind: Always
 
 # ===== PUNTEROS Y REFERENCIAS =====
 # int *ptr; (puntero junto al nombre, no al tipo)
@@ -85,7 +84,7 @@ DerivePointerAlignment: false
 
 # ===== COMENTARIOS =====
 # Preservar comentarios y su formato
-ReflowComments: false
+ReflowComments: Never
 
 # ===== FORMATO DE FUNCIONES =====
 # Permitir múltiples parámetros por línea
@@ -114,13 +113,40 @@ PenaltyBreakString: 1000
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
 
-# ===== INCLUDES =====
-# El orden de los #include lo fija la lección L1.1 (no es alfabético) y lo mantiene el autor:
-#   1) el .h propio del .c  2) cabeceras del microcontrolador (fsl_*)  3) librería estándar de C
-#   4) cabeceras propias, de la más general a la más específica.
-# Por eso clang-format NO los reordena.
-SortIncludes: Never
-IncludeBlocks: Preserve
+# ===== INCLUDES (recomendado para embebido C) =====
+# Si tu clang-format no soporta valores extendidos, usa: SortIncludes: true
+SortIncludes:
+  Enabled: true
+  IgnoreCase: true
+IncludeBlocks: Merge
+
+# Detecta mejor cabecera principal asociada al .c
+#IncludeIsMainRegex: '(_lpc40xx)?$'
+IncludeIsMainSourceRegex: '(main_.*|.*)\.c$'
+
+# Orden por grupos:
+# 1) Cabecera principal asociada al .c (detectada automáticamente) (comillas)
+# 2) SDK (fsl_*), CMSIS / startup / system (comillas o ángulos)
+# 3) Librería estándar de C (ángulos)
+# 4) Cabeceras de configuración de la placa y la aplicación (comillas)
+# 5) Cabeceras generales tipos / lcd / error (comillas)
+# 6) Cabeceras restantes del proyecto (comillas)
+IncludeCategories:
+  - Regex: '^[<"](fsl_.*|core_cm33|system_.*)\.h[>"]$'
+    Priority: 1
+    SortPriority: 1
+  - Regex: '^<[^>]+>$'
+    Priority: 2
+    SortPriority: 2
+  - Regex: '^"(app|board|clock_config|peripherals|pin_mux)\.h"$'
+    Priority: 3
+    SortPriority: 3
+  - Regex: '^"(tipos|error|lcd(_(lvgl|panel|tactil))?)\.h"$'
+    Priority: 4
+    SortPriority: 4
+  - Regex: '^"[^"]+"$'
+    Priority: 5
+    SortPriority: 5
 
 # ===== MACROS Y PREPROCESADOR =====
 # Indentar directivas del preprocesador como código normal (no al margen)
@@ -135,7 +161,7 @@ IndentCaseBlocks: false
 # Mantener formato de arrays/inicializadores
 Cpp11BracedListStyle: true
 BinPackArguments: true
-BinPackParameters: true
+BinPackParameters: BinPack
 PackConstructorInitializers: Never
 
 # Formato de declaraciones consecutivas

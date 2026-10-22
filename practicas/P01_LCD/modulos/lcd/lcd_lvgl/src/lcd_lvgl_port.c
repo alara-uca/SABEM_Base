@@ -35,52 +35,53 @@
  *  Consecuencia: mientras LVGL refresca, una tarea que dibuje con lcd_* espera como mucho lo que
  *  dura un refresco (unos milisegundos por cada franja de 20 líneas modificada).
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2026
- * @version     1.0
+ * @author    Alejandro Lara Doña - alejandro.lara(at)uca.es
+ * @date      2026
+ * @version   1.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "lcd_lvgl_port.h"
-#include "tipos.h"
-#include "lvgl.h"
 #include "lcd_panel.h"
 #include "lcd_tactil.h"
+#include "tipos.h"
+#include "lvgl.h"
 
 #if LCD_PANEL_CON_FREERTOS
-#include "FreeRTOS.h"
-#include "task.h"
+  #include "FreeRTOS.h"
+  #include "task.h"
 
-#if !defined(configUSE_RECURSIVE_MUTEXES) || (configUSE_RECURSIVE_MUTEXES == 0)
-#error "lcd_lvgl_port: LVGL con FreeRTOS necesita configUSE_RECURSIVE_MUTEXES a 1 (lv_lock)."
-#endif
+  #if !defined(configUSE_RECURSIVE_MUTEXES) || (configUSE_RECURSIVE_MUTEXES == 0)
+    #error "lcd_lvgl_port: LVGL con FreeRTOS necesita configUSE_RECURSIVE_MUTEXES a 1 (lv_lock)."
+  #endif
 #endif  // LCD_PANEL_CON_FREERTOS
 
 // ===== LCD_LVGL_PORT - Variables Privadas =====
 /**
  * @brief   Búferes de dibujo de LVGL: LCD_LVGL_PORT_NUM_BUFERES franjas de
  * LCD_LVGL_PORT_LINEAS_BUFER líneas de la pantalla en RGB565 (2 bytes por píxel).
- * @ingroup Lcd_Lvgl_Port
+ * @ingroup LCD_LVGL_Port
  * @private
  */
 SDK_ALIGN(static uint8_t buferes_dibujo[LCD_LVGL_PORT_NUM_BUFERES]
-                                       [LCD_PANEL_ANCHO * LCD_LVGL_PORT_LINEAS_BUFER * 2u], 4);
+                                       [LCD_PANEL_ANCHO * LCD_LVGL_PORT_LINEAS_BUFER * 2u],
+          4);
 
-static bool_t inicializado = FALSE;               //!< TRUE tras lcd_lvgl_port_inicializar().
-static bool_t bus_tomado = FALSE;                 //!< TRUE si el port tiene el bus de la LCD.
-static volatile bool_t transferencia_en_curso = FALSE;  //!< TRUE mientras viaja un volcado.
-static uint16_t tactil_x = 0;                     //!< Última coordenada X leída del táctil.
-static uint16_t tactil_y = 0;                     //!< Última coordenada Y leída del táctil.
+static bool_t          g_inicializado = FALSE;  //!< TRUE tras lcd_lvgl_port_inicializar().
+static bool_t          g_bus_tomado   = FALSE;  //!< TRUE si el port tiene el bus de la LCD.
+static volatile bool_t g_transferencia_en_curso = FALSE;  //!< TRUE mientras viaja un volcado.
+static uint16_t        g_tactil_x               = 0;      //!< Última coordenada X leída del táctil.
+static uint16_t        g_tactil_y               = 0;      //!< Última coordenada Y leída del táctil.
 
 #if !LCD_PANEL_CON_FREERTOS
-static volatile uint32_t milisegundos = 0;        //!< Reloj de LVGL sin FreeRTOS.
+static volatile uint32_t g_milisegundos = 0;  //!< Reloj de LVGL sin FreeRTOS.
 #endif
 
 // ===== LCD_LVGL_PORT - Funciones Privadas =====
 /**
  * @brief   Devuelve a LVGL los milisegundos transcurridos desde el arranque.
- * @ingroup Lcd_Lvgl_Port
+ * @ingroup LCD_LVGL_Port
  * @private
  *
  * @details LVGL la llama cada vez que necesita saber la hora (temporizadores, animaciones,
@@ -90,89 +91,91 @@ static uint32_t lcd_lvgl_port_leer_ms(void) {
 #if LCD_PANEL_CON_FREERTOS
   return (uint32_t) pdTICKS_TO_MS(xTaskGetTickCount());
 #else
-  return milisegundos;
+  return g_milisegundos;
 #endif
 }
 
 /**
  * @brief   Se ejecuta en la interrupción de fin de volcado de lcd_panel.
- * @ingroup Lcd_Lvgl_Port
+ * @ingroup LCD_LVGL_Port
  * @private
  *
  * @details Sólo avisa: marca que no hay transferencia en curso y le dice a LVGL que el búfer
  * vuelve a estar libre (lv_display_flush_ready() puede llamarse desde una interrupción). El bus
  * NO se suelta aquí (ver la cabecera del fichero).
  *
- * @param[in]   arg   El *display* de LVGL, pasado a lcd_panel_escribir_pixeles_async().
+ * @param[in]   ptr_arg   El *display* de LVGL, pasado a lcd_panel_escribir_pixeles_async().
  */
-static void lcd_lvgl_port_fin_volcado(void *arg) {
-  transferencia_en_curso = FALSE;
-  lv_display_flush_ready((lv_display_t *) arg);
+static void lcd_lvgl_port_fin_volcado(void *ptr_arg) {
+  g_transferencia_en_curso = FALSE;
+  lv_display_flush_ready((lv_display_t *) ptr_arg);
 }
 
 /**
  * @brief   Función de volcado (*flush_cb*) de LVGL: envía a la pantalla el rectángulo que LVGL
  * acaba de dibujar en uno de los búferes.
- * @ingroup Lcd_Lvgl_Port
+ * @ingroup LCD_LVGL_Port
  * @private
  *
  * @details LVGL la llama desde lv_timer_handler() (o desde lv_refr_now()) una vez por cada
  * franja modificada. Antes de llamarla, LVGL ya ha esperado a que termine el volcado anterior,
  * así que el bus está libre de transferencias.
  *
- * @param[in]   display   *Display* de LVGL que se está refrescando.
- * @param[in]   area      Rectángulo de pantalla, con extremos incluidos.
- * @param[in]   px_map    Píxeles RGB565 del rectángulo, de izquierda a derecha y de arriba abajo.
+ * @param[in]   ptr_display   *Display* de LVGL que se está refrescando.
+ * @param[in]   ptr_area      Rectángulo de pantalla, con extremos incluidos.
+ * @param[in]   ptr_px_map    Píxeles RGB565 del rectángulo, de izquierda a derecha y de arriba
+ *                            abajo.
  */
-static void lcd_lvgl_port_volcar(lv_display_t *display, const lv_area_t *area, uint8_t *px_map) {
-  uint32_t n = (uint32_t) lv_area_get_width(area) * (uint32_t) lv_area_get_height(area);
+static void lcd_lvgl_port_volcar(lv_display_t *ptr_display, const lv_area_t *ptr_area,
+                                 uint8_t *ptr_px_map) {
+  uint32_t n = (uint32_t) lv_area_get_width(ptr_area) * (uint32_t) lv_area_get_height(ptr_area);
 
-  if (!bus_tomado) {
+  if (!g_bus_tomado) {
     lcd_panel_tomar_bus();
-    bus_tomado = TRUE;
+    g_bus_tomado = TRUE;
   }
 
 #if LCD_LVGL_PORT_INTERCAMBIAR_BYTES
-  lv_draw_sw_rgb565_swap(px_map, n);
+  lv_draw_sw_rgb565_swap(ptr_px_map, n);
 #endif
 
-  lcd_panel_ventana((uint16_t) area->x1, (uint16_t) area->y1,
-                    (uint16_t) area->x2, (uint16_t) area->y2);
-  transferencia_en_curso = TRUE;
-  lcd_panel_escribir_pixeles_async((const uint16_t *) px_map, n, lcd_lvgl_port_fin_volcado,
-                                   display);
+  lcd_panel_ventana((uint16_t) ptr_area->x1, (uint16_t) ptr_area->y1, (uint16_t) ptr_area->x2,
+                    (uint16_t) ptr_area->y2);
+  g_transferencia_en_curso = TRUE;
+  lcd_panel_escribir_pixeles_async((const uint16_t *) ptr_px_map, n, lcd_lvgl_port_fin_volcado,
+                                   ptr_display);
 }
 
 /**
  * @brief   Función de lectura (*read_cb*) del dispositivo de entrada de LVGL.
- * @ingroup Lcd_Lvgl_Port
+ * @ingroup LCD_LVGL_Port
  * @private
  *
  * @details LVGL la llama periódicamente (cada LV_DEF_REFR_PERIOD ms) desde lv_timer_handler().
  * Se apoya en la misma librería del táctil que usa el programa, lcd_tactil_leer(). Si no hay
  * dedo, se devuelve el último punto conocido con estado "suelto", como pide LVGL.
  *
- * @param[in]   indev   Dispositivo de entrada (no se usa).
- * @param[out]  datos   Estado y coordenadas que se entregan a LVGL.
+ * @param[in]   ptr_indev   Dispositivo de entrada (no se usa).
+ * @param[out]  ptr_datos   Estado y coordenadas que se entregan a LVGL.
  */
-static void lcd_lvgl_port_leer_tactil(lv_indev_t *indev, lv_indev_data_t *datos) {
-  (void) indev;
+static void lcd_lvgl_port_leer_tactil(lv_indev_t *ptr_indev, lv_indev_data_t *ptr_datos) {
+  (void) ptr_indev;
 
-  if (lcd_tactil_leer(&tactil_x, &tactil_y)) {
-    datos->state = LV_INDEV_STATE_PRESSED;
+  if (lcd_tactil_leer(&g_tactil_x, &g_tactil_y)) {
+    ptr_datos->state = LV_INDEV_STATE_PRESSED;
   } else {
-    datos->state = LV_INDEV_STATE_RELEASED;
+    ptr_datos->state = LV_INDEV_STATE_RELEASED;
   }
-  datos->point.x = (int32_t) tactil_x;
-  datos->point.y = (int32_t) tactil_y;
+  ptr_datos->point.x = (int32_t) g_tactil_x;
+  ptr_datos->point.y = (int32_t) g_tactil_y;
 }
 
 // ===== LCD_LVGL_PORT - Funciones Publicas =====
 void lcd_lvgl_port_inicializar(void) {
   lv_display_t *display;
-  lv_indev_t *indev;
+  lv_indev_t   *indev;
 
-  if (inicializado) {
+  if (g_inicializado) {
     return;
   }
 
@@ -183,7 +186,7 @@ void lcd_lvgl_port_inicializar(void) {
   lv_init();
   lv_tick_set_cb(lcd_lvgl_port_leer_ms);
 #if !LCD_PANEL_CON_FREERTOS && LCD_LVGL_PORT_SYSTICK_PROPIO
-  (void) SysTick_Config(SystemCoreClock / 1000u);   // Una interrupción por milisegundo.
+  (void) SysTick_Config(SystemCoreClock / 1000u);  // Una interrupción por milisegundo.
 #endif
 
   // Display: 480 x 320, dos búferes parciales y la función de volcado.
@@ -200,34 +203,34 @@ void lcd_lvgl_port_inicializar(void) {
     lv_indev_set_read_cb(indev, lcd_lvgl_port_leer_tactil);
   }
 
-  inicializado = TRUE;
+  g_inicializado = TRUE;
 }
 
 void lcd_lvgl_port_soltar_bus(void) {
-  while (transferencia_en_curso) {
+  while (g_transferencia_en_curso) {
     // Espera activa corta: como mucho, lo que tarda en viajar una franja de 20 líneas.
   }
-  if (bus_tomado) {
-    bus_tomado = FALSE;
+  if (g_bus_tomado) {
+    g_bus_tomado = FALSE;
     lcd_panel_soltar_bus();
   }
 }
 
 void lcd_lvgl_port_contar_1ms(void) {
 #if !LCD_PANEL_CON_FREERTOS
-  milisegundos++;
+  g_milisegundos++;
 #endif
 }
 
 #if !LCD_PANEL_CON_FREERTOS && LCD_LVGL_PORT_SYSTICK_PROPIO
 /**
  * @brief   Interrupción del SysTick (sin FreeRTOS): cuenta un milisegundo para LVGL.
- * @ingroup Lcd_Lvgl_Port
+ * @ingroup LCD_LVGL_Port
  * @private
  *
  * @note    Con FreeRTOS el SysTick es del núcleo (xPortSysTickHandler) y esta función no existe.
  */
 void SysTick_Handler(void) {
-  milisegundos++;
+  g_milisegundos++;
 }
 #endif

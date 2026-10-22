@@ -8,11 +8,11 @@
  * FreeRTOS.
  * Probado en la placa con frdmmcxa156_flexio_mculcd_edma_transfer.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2026
- * @version     1.0
+ * @author    Alejandro Lara Doña - alejandro.lara(at)uca.es
+ * @date      2026
+ * @version   1.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "fsl_common.h"   // SDK_DelayAtLeastUs, SystemCoreClock
@@ -70,7 +70,7 @@ static void demo_figuras(void) {
 
   lcd_borrar(GRIS_OSCURO);
 
-  lcd_rectangulo(0, 0, LCD_X_MAXIMO, LCD_Y_MAXIMO, BLANCO);
+  lcd_rectangulo(0, 0, kLCDXMaximo, kLCDYMaximo, BLANCO);
   lcd_rectangulo_relleno(20, 20, 140, 100, ROJO);
   lcd_rectangulo(160, 20, 280, 100, AMARILLO);
   lcd_circulo(360, 60, 40, VERDE);

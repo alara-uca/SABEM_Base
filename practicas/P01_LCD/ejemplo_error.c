@@ -15,11 +15,11 @@
  * programa se para igual, pero sin mensaje. Ver modulos/README.md. Probado en la placa con
  * frdmmcxa156_flexio_mculcd_edma_transfer.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2026
- * @version     1.0
+ * @author    Alejandro Lara Doña - alejandro.lara(at)uca.es
+ * @date      2026
+ * @version   1.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "fsl_common.h"   // SDK_DelayAtLeastUs, SystemCoreClock

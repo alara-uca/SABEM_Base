@@ -2,8 +2,8 @@
 
 Pantalla de 3,5" y 480 × 320 píxeles de la **FRDM-MCXA156**: controlador **ST7796S** por un bus
 paralelo **8080 de 8 bits fabricado con el FlexIO**, y panel táctil capacitivo **GT911** en el
-bus **LPI2C2** (compartido con el RTC y el sensor de distancia de SABM). La decisión de diseño
-está en `00_Gestion/DECISIONES_TOMADAS.md`, sección «Pantalla — CERRADA (21/09/2026)».
+bus **LPI2C2** (compartido con el RTC y el sensor de distancia de SABEM). La decisión de diseño
+está en `00_Gestion/DECISIONES_TOMADAS.md`, sección "Pantalla — CERRADA (21/09/2026)".
 
 La biblioteca se entrega como **cuatro módulos** del sistema de construcción del SDK, agrupados
 en esta carpeta. Cómo funcionan los módulos en general (estructura, cómo se añaden a un proyecto,
@@ -12,7 +12,7 @@ cómo se crea uno nuevo) está en [../README.md](../README.md).
 ## 1. Las cuatro capas
 
 ```text
-   Informática Industrial                     SABM (4.º)
+   Informática Industrial                     SABEM (4.º)
    ----------------------          -----------------------------------------
    programa                        programa
       |                               |                      |
@@ -39,7 +39,7 @@ cómo se crea uno nuevo) está en [../README.md](../README.md).
 | --- | --- | --- | --- |
 | `lcd_panel` | `lcd_panel.h/.c` | Capa más baja: inicializa FlexIO y ST7796S, selecciona ventanas y vuelca píxeles (bloqueante o asíncrono con aviso). Con FreeRTOS, protege el bus con un mutex. | `lcd`, `lcd_tactil` y `lcd_lvgl`; nunca el programa. |
 | `lcd` | `lcd.h/.c`, `lcd_colores.h`, `fuente.h/.c` | **Modo inmediato directo**, con las mismas firmas que la antigua `glcd_*` (prefijo `lcd_`) y sus tres fuentes de mapa de bits (8×16, 12×24, 16×32). No hay *framebuffer* en el micro: cada llamada escribe su ventana en la memoria de imagen del ST7796S. | Informática Industrial, y cualquiera que necesite dibujo masivo. |
-| `lcd_lvgl` | `lcd_lvgl.h/.c`, `lcd_lvgl_port.h/.c`, `lv_conf.h` | **Modo inmediato emulado sobre LVGL**: mismas firmas que `glcd_*` con prefijo `lcd_lvgl_`, pero cada llamada crea (o actualiza) un objeto de LVGL. Se mezcla libremente con los widgets de LVGL. | SABM. |
+| `lcd_lvgl` | `lcd_lvgl.h/.c`, `lcd_lvgl_port.h/.c`, `lv_conf.h` | **Modo inmediato emulado sobre LVGL**: mismas firmas que `glcd_*` con prefijo `lcd_lvgl_`, pero cada llamada crea (o actualiza) un objeto de LVGL. Se mezcla libremente con los widgets de LVGL. | SABEM. |
 | `lcd_tactil` | `lcd_tactil.h/.c` | Táctil en modo inmediato: `lcd_tactil_leer(&x, &y)`. Un solo driver: también es el que lee LVGL. | Las dos asignaturas. |
 
 Todos usan además el módulo `comun` (`tipos.h`), que está fuera de esta carpeta. El módulo
@@ -173,9 +173,9 @@ como `main.c` del proyecto y se activan los módulos que dice su cabecera.
 | Fichero | Asignatura | Qué muestra | Probado en la placa |
 | --- | --- | --- | --- |
 | `lcd/ejemplos/ejemplo_lcd.c` | II | `lcd_*` en modo inmediato directo (texto, figuras). | Sí |
-| `lcd_tactil/ejemplos/ejemplo_tactil.c` | II / SABM | `lcd_tactil_leer()` sin LVGL. | Sí |
-| `lcd_lvgl/ejemplos/ejemplo_lcd_lvgl.c` | SABM | Sin RTOS: `lcd_lvgl_xprintf()`, `lcd_lvgl_printf()` y figuras mezclados con un `lv_slider` que se mueve con el táctil; bucle con `lcd_lvgl_procesar()`. | Sí, también el táctil |
-| `lcd_lvgl/ejemplos/ejemplo_freertos.c` | SABM | Con FreeRTOS: una tarea de interfaz llama a `lcd_lvgl_procesar()` y otra escribe un contador con `lcd_lvgl_xprintf()`, protegida por `lv_lock()`; más un `lv_button`. | Sí, también el táctil |
+| `lcd_tactil/ejemplos/ejemplo_tactil.c` | II / SABEM | `lcd_tactil_leer()` sin LVGL. | Sí |
+| `lcd_lvgl/ejemplos/ejemplo_lcd_lvgl.c` | SABEM | Sin RTOS: `lcd_lvgl_xprintf()`, `lcd_lvgl_printf()` y figuras mezclados con un `lv_slider` que se mueve con el táctil; bucle con `lcd_lvgl_procesar()`. | Sí, también el táctil |
+| `lcd_lvgl/ejemplos/ejemplo_freertos.c` | SABEM | Con FreeRTOS: una tarea de interfaz llama a `lcd_lvgl_procesar()` y otra escribe un contador con `lcd_lvgl_xprintf()`, protegida por `lv_lock()`; más un `lv_button`. | Sí, también el táctil |
 
 Los cuatro ejemplos están comprobados en la placa, táctil incluido: con `ejemplo_tactil.c` se
 dibuja bajo el dedo en toda la pantalla, con `ejemplo_lcd_lvgl.c` el deslizador se mueve con el

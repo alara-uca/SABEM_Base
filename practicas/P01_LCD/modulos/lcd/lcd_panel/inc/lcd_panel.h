@@ -17,14 +17,16 @@
  * todos esos pines (no depende del pin_mux.c del proyecto), y también sujeta el pin INT del táctil
  * durante el reset, porque el GT911 comparte la línea RST con el ST7796S (ver lcd_tactil.h).
  *
- * @note    CONTRATO DE INTERFAZ fijado el 21/09/2026: lcd.c, lcd_lvgl.c y lcd_lvgl_port.c se
- * escriben contra estas firmas. Cambiarlas obliga a revisar los tres.
+ * @author    Alejandro Lara Doña - alejandro.lara(at)uca.es
+ * @date      2026
+ * @version   1.0
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2026
- * @version     1.0
- *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
+ */
+
+/**
+ * @defgroup  LCD_Panel LCD_PANEL - Pantalla, capa baja
+ * @brief     Controlador ST7796S y bus 8080 fabricado con el FlexIO.
  */
 
 #ifndef LCD_PANEL_H
@@ -34,28 +36,28 @@
 
 // ===== LCD_PANEL - Macros Publicas =====
 /**
- * @defgroup  Lcd_Panel_Macros LCD_PANEL - Macros Públicas
- * @ingroup   Lcd_Panel
+ * @defgroup  LCD_Panel_Macros LCD_PANEL - Macros Públicas
+ * @ingroup   LCD_Panel
  * @{
  */
-#define LCD_PANEL_ANCHO   480u   //!< Píxeles en horizontal, en orientación apaisada.
-#define LCD_PANEL_ALTO    320u   //!< Píxeles en vertical, en orientación apaisada.
+#define LCD_PANEL_ANCHO 480u  //!< Píxeles en horizontal, en orientación apaisada.
+#define LCD_PANEL_ALTO  320u  //!< Píxeles en vertical, en orientación apaisada.
 
 #ifndef LCD_PANEL_CON_FREERTOS
-#define LCD_PANEL_CON_FREERTOS  0  //!< 1: el cerrojo del bus es un mutex de FreeRTOS.
+  #define LCD_PANEL_CON_FREERTOS 0  //!< 1: el cerrojo del bus es un mutex de FreeRTOS.
 #endif
 //!@}
 
 // ===== LCD_PANEL - Tipos Publicos =====
 /**
  * @brief   Función a la que llama lcd_panel_escribir_pixeles_async() al terminar el volcado.
- * @ingroup Lcd_Panel
+ * @ingroup LCD_Panel
  *
  * @details Se ejecuta en contexto de interrupción: debe ser corta.
  *
- * @param[in]   arg   El argumento que se pasó a lcd_panel_escribir_pixeles_async().
+ * @param[in]   ptr_arg   El argumento que se pasó a lcd_panel_escribir_pixeles_async().
  */
-typedef void (*lcd_panel_fin_t)(void *arg);
+typedef void (*lcd_panel_fin_t)(void *ptr_arg);
 
 // ===== LCD_PANEL - Funciones Publicas =====
 /**
@@ -75,7 +77,7 @@ void lcd_panel_ventana(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
 /**
  * @brief   Escribe n píxeles RGB565 en la ventana seleccionada y espera a que terminen.
  */
-void lcd_panel_escribir_pixeles(const uint16_t *pixeles, uint32_t n);
+void lcd_panel_escribir_pixeles(const uint16_t *ptr_pixeles, uint32_t n);
 
 /**
  * @brief   Escribe n veces el mismo color en la ventana seleccionada (rellenos y borrado sin
@@ -85,17 +87,19 @@ void lcd_panel_repetir_color(uint16_t color, uint32_t n);
 
 /**
  * @brief   Empieza a escribir n píxeles en la ventana seleccionada y vuelve sin esperar. Al
- * terminar llama a fin(arg) desde la interrupción. El búfer debe seguir vivo hasta entonces.
+ * terminar llama a ptr_fin(ptr_arg) desde la interrupción. El búfer debe seguir vivo hasta
+ * entonces.
  *
  * @note    Con la configuración actual —adaptador DBI sin eDMA, igual que el ejemplo de la placa
- * en el SDK 26.06— la escritura la hace la CPU dentro de esta misma llamada, y fin(arg) se ejecuta
- * ANTES de que la función vuelva, en el contexto de quien llama (no en una interrupción). El
- * código cliente debe funcionar en los dos casos: no debe suponer que fin() llega más tarde, ni
- * que llega desde una interrupción. Si n es 0 o la pantalla no está inicializada, se llama a
- * fin(arg) igualmente, para que nadie se quede esperando un aviso que no llegaría.
+ * en el SDK 26.06— la escritura la hace la CPU dentro de esta misma llamada, y ptr_fin(ptr_arg)
+ * se ejecuta ANTES de que la función vuelva, en el contexto de quien llama (no en una
+ * interrupción). El código cliente debe funcionar en los dos casos: no debe suponer que ptr_fin()
+ * llega más tarde, ni que llega desde una interrupción. Si n es 0 o la pantalla no está
+ * inicializada, se llama a ptr_fin(ptr_arg) igualmente, para que nadie se quede esperando un aviso
+ * que no llegaría.
  */
-void lcd_panel_escribir_pixeles_async(const uint16_t *pixeles, uint32_t n,
-                                      lcd_panel_fin_t fin, void *arg);
+void lcd_panel_escribir_pixeles_async(const uint16_t *ptr_pixeles, uint32_t n,
+                                      lcd_panel_fin_t ptr_fin, void *ptr_arg);
 
 /**
  * @brief   Toma el bus de la pantalla (mutex con FreeRTOS; nada sin él). Cada secuencia
