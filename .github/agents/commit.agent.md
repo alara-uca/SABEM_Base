@@ -35,7 +35,7 @@ Ejecuta **un solo comando por llamada**, sin encadenar varios con `;`, `&&` ni `
 
 ## Formato del mensaje
 
-Primera línea: `:emoji:tipo(scope): descripción`, en español, en minúsculas, en imperativo, sin punto final, sin tildes ni ñ y de **72 caracteres como máximo** (cuéntalos y acórtala si se pasa). El scope es el módulo afectado (`sensor`, `fsm`, `motor`...) y se omite si el cambio no es de un módulo concreto. Si hace falta explicar el porqué, va en el cuerpo tras una línea en blanco.
+Primera línea: `:emoji:tipo(scope): descripción`, en español, en minúsculas, en imperativo, sin punto final y de **72 caracteres como máximo** (cuéntalos y acórtala si se pasa). El scope es el módulo afectado (`sensor`, `fsm`, `motor`...) y se omite si el cambio no es de un módulo concreto. Si hace falta explicar el porqué, va en el cuerpo tras una línea en blanco.
 
 | Emoji | Tipo | Cuándo |
 | :-: | - | - |
@@ -46,7 +46,7 @@ Primera línea: `:emoji:tipo(scope): descripción`, en español, en minúsculas,
 | `:crossed_fingers:` | `test` | programa que solo sirve para comprobar algo |
 | `:wrench:` | `tarea` | compilación, configuración, ficheros de proyecto |
 
-Ejemplos: `:star:nuevo(sensor): anadir lectura simulada del sensor de guiado`, `:construction:reestructura(motor): renombrar las funciones de pwm a motor_pwm`, `:wrench:tarea: anadir -Wall -Wextra al makefile`.
+Ejemplos: `:star:nuevo(sensor): añadir lectura simulada del sensor de guiado`, `:construction:reestructura(motor): renombrar las funciones de pwm a motor_pwm`, `:wrench:tarea: añadir -Wall -Wextra al makefile`.
 
 No uses `:bookmark:hito`: lo emplea solo quien fusiona un Pull Request en `main`.
 

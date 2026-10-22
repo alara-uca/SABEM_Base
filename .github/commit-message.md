@@ -4,7 +4,7 @@ Escribe el mensaje de commit en español con este formato en la primera línea:
 
 `:emoji:tipo(scope): descripción`
 
-- Máximo 72 caracteres, en minúsculas, en imperativo, sin punto final y sin tildes ni ñ.
+- Máximo 72 caracteres, en minúsculas, en imperativo, sin punto final.
 - Tipos y emojis: `:star:nuevo` (funcionalidad nueva), `:bug:fix` (corrección de un fallo), `:memo:docs` (solo documentación), `:construction:reestructura` (renombrar, mover o reindentar sin cambiar el comportamiento), `:crossed_fingers:test` (programa que solo comprueba algo), `:wrench:tarea` (compilación, configuración, ficheros de proyecto).
 - El scope es el módulo afectado (`sensor`, `fsm`, `motor`...). Omítelo si el cambio no es de un módulo concreto.
 - Elige el tipo por lo que el cambio hace al programa, no por el nombre del fichero. `tarea` es solo para ficheros que no son código ni documentación (`Makefile`, `.gitignore`, configuración) y nunca para ficheros `.c` o `.h`.
@@ -17,7 +17,7 @@ Escribe el mensaje de commit en español con este formato en la primera línea:
 Ejemplos:
 
 ```text
-:star:nuevo(sensor): anadir lectura simulada del sensor de guiado
+:star:nuevo(sensor): añadir lectura simulada del sensor de guiado
 
 Assisted-by: GitHub Copilot (GPT-5)
 ```

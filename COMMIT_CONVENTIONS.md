@@ -32,13 +32,13 @@ general del proyecto), se omite el scope y el paréntesis entero:
 
 | Commit real del historial | Con el nuevo formato |
 | --- | --- |
-| `Anadir lectura simulada del sensor de guiado` | `:star:nuevo(sensor): anadir lectura simulada del sensor de guiado` |
-| `Simular oscilacion en la lectura para probar el filtro` | `:crossed_fingers:test(sensor): simular oscilacion en la lectura para probar el filtro` |
-| `Anadir esqueleto de la maquina de estados` | `:star:nuevo(fsm): anadir esqueleto de la maquina de estados` |
-| `Implementar las transiciones basicas de la FSM` | `:star:nuevo(fsm): implementar las transiciones basicas de la fsm` |
-| `Anadir control de velocidad por PWM (esqueleto)` | `:star:nuevo(motor): anadir control de velocidad por pwm, esqueleto` |
-| `Anadir caso por defecto a la FSM, en main` | `:bug:fix(fsm): anadir caso por defecto que faltaba en el switch` |
-| `Anadir gitignore y README inicial del equipo` | `:wrench:tarea: anadir gitignore, readme, convenciones de commit y plantillas del equipo` |
+| `Anadir lectura simulada del sensor de guiado` | `:star:nuevo(sensor): añadir lectura simulada del sensor de guiado` |
+| `Simular oscilacion en la lectura para probar el filtro` | `:crossed_fingers:test(sensor): simular oscilación en la lectura para probar el filtro` |
+| `Anadir esqueleto de la maquina de estados` | `:star:nuevo(fsm): añadir esqueleto de la máquina de estados` |
+| `Implementar las transiciones basicas de la FSM` | `:star:nuevo(fsm): implementar las transiciones básicas de la fsm` |
+| `Anadir control de velocidad por PWM (esqueleto)` | `:star:nuevo(motor): añadir control de velocidad por pwm, esqueleto` |
+| `Anadir caso por defecto a la FSM, en main` | `:bug:fix(fsm): añadir caso por defecto que faltaba en el switch` |
+| `Anadir gitignore y README inicial del equipo` | `:wrench:tarea: añadir gitignore, readme, convenciones de commit y plantillas del equipo` |
 | `Fusionar h1-sensor: hito H1 verificado` | `:bookmark:hito(sensor): fusionar h1-sensor, hito H1 verificado` |
 | `Fusionar h2-fsm: hito H2 verificado` | `:bookmark:hito(fsm): fusionar h2-fsm, hito H2 verificado` |
 
@@ -55,19 +55,19 @@ Ante la duda, pregúntate qué hace el commit con el programa final. Los tipos m
 
 | Cambio | Tipo | Commit |
 | --- | --- | --- |
-| Añado `sensor_leer()` | `nuevo` | `:star:nuevo(sensor): anadir lectura simulada del sensor de guiado` |
-| Añado un módulo de LCD que no existía | `nuevo` | `:star:nuevo(lcd): anadir modulo de escritura en el lcd` |
-| Corrijo un fallo del comportamiento | `fix` | `:bug:fix(fsm): anadir caso por defecto que faltaba en el switch` |
-| Cambio un texto del `README.md` o de una guía | `docs` | `:memo:docs: corregir la explicacion de la calibracion` |
+| Añado `sensor_leer()` | `nuevo` | `:star:nuevo(sensor): añadir lectura simulada del sensor de guiado` |
+| Añado un módulo de LCD que no existía | `nuevo` | `:star:nuevo(lcd): añadir módulo de escritura en el lcd` |
+| Corrijo un fallo del comportamiento | `fix` | `:bug:fix(fsm): añadir caso por defecto que faltaba en el switch` |
+| Cambio un texto del `README.md` o de una guía | `docs` | `:memo:docs: corregir la explicación de la calibración` |
 | Renombro funciones o ficheros sin cambiar lo que hacen | `reestructura` | `:construction:reestructura(motor): renombrar las funciones de pwm a motor_pwm` |
 | Muevo código a otro módulo | `reestructura` | `:construction:reestructura(sensor): mover el filtro a su propio fichero` |
 | Reindento o ordeno el código, sin tocar la lógica | `reestructura` | `:construction:reestructura(fsm): reindentar fsm_step a 4 espacios` |
 | Escribo un programa que comprueba que `sensor_leer()` devuelve 512 | `test` | `:crossed_fingers:test(sensor): comprobar que la lectura vale 512` |
-| Simulo una señal para probar un filtro | `test` | `:crossed_fingers:test(sensor): simular oscilacion en la lectura para probar el filtro` |
-| Añado la prueba que reproduce un fallo ya corregido | `test` | `:crossed_fingers:test(fsm): forzar cada transicion con entradas simuladas` |
-| Cambio las opciones del compilador | `tarea` | `:wrench:tarea: anadir -Wall -Wextra al makefile` |
+| Simulo una señal para probar un filtro | `test` | `:crossed_fingers:test(sensor): simular oscilación en la lectura para probar el filtro` |
+| Añado la prueba que reproduce un fallo ya corregido | `test` | `:crossed_fingers:test(fsm): forzar cada transición con entradas simuladas` |
+| Cambio las opciones del compilador | `tarea` | `:wrench:tarea: añadir -Wall -Wextra al makefile` |
 | Ignoro ficheros generados | `tarea` | `:wrench:tarea: ignorar los ficheros elf y la carpeta build` |
-| Cambio la plantilla o la configuración del proyecto | `tarea` | `:wrench:tarea: actualizar la plantilla de modulo` |
+| Cambio la plantilla o la configuración del proyecto | `tarea` | `:wrench:tarea: actualizar la plantilla de módulo` |
 | Fusiono el *Pull Request* que cierra el hito H1 | `hito` | `:bookmark:hito(sensor): fusionar h1-sensor, hito H1 verificado` |
 | Fusiono el *Pull Request* que cierra el hito H2 | `hito` | `:bookmark:hito(fsm): fusionar h2-fsm, hito H2 verificado` |
 
@@ -96,7 +96,7 @@ Si el mensaje lo ha generado GitHub Copilot (con la chispa del panel *Source Con
 de *commits*), termina con una línea en blanco y esta línea final, que va después del cuerpo si lo hay:
 
 ```text
-:star:nuevo(sensor): anadir lectura simulada del sensor de guiado
+:star:nuevo(sensor): añadir lectura simulada del sensor de guiado
 
 Assisted-by: GitHub Copilot (GPT-5)
 ```
