@@ -1,9 +1,25 @@
-# Normaliza los finales de linea: en el repositorio siempre LF, cada PC usa el suyo.
-* text=auto
+# Finales de linea: LF en el repositorio y en el directorio de trabajo, en todos los sistemas.
+# Git decide por contenido que es texto y que es binario.
+* text=auto eol=lf
 
-# Binarios: Git no debe tocarlos.
-*.pdf binary
+# Scripts de Windows: necesitan CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binarios: no tocar.
 *.png binary
 *.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.xlsx binary
+*.docx binary
+*.pptx binary
+*.zip binary
+*.a binary
+*.lib binary
 *.elf binary
 *.bin binary
+*.FLM binary
