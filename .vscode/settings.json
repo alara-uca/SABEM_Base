@@ -31,24 +31,14 @@
   "github.copilot.chat.commitMessageGeneration.instructions": [
     { "file": ".github/commit-message.md" },
   ],
+  // Solo se autoaprueban formas exactas (expresiones regulares). Todo lo demas pide confirmacion:
+  // commit, push, stash, rebase, clean, reset con argumentos, restore sin --staged, add de rutas
+  // que empiecen por "." o "-" (.env, ., -A, -u...), etc.
   "chat.tools.terminal.autoApprove": {
-    "git status": true,
-    "git diff": true,
-    "git log": true,
-    "git show": true,
-    "git add": true,
-    "git reset": true,
-    "git restore --staged": true,
-    "git add .": false,
-    "git add -A": false,
-    "git add --all": false,
-    "git reset --hard": false,
-    "git restore": false,
-    "git commit": false,
-    "git push": false,
-    "git stash": false,
-    "git rebase": false,
-    "git clean": false,
+    "/^git (status|diff|log|show|rev-parse)\\b(?!.*--output)/": true,
+    "/^git reset$/": true,
+    "/^git add (-p )?[^\\s.;&|-][^\\s;&|]*( [^\\s.;&|-][^\\s;&|]*)*$/": true,
+    "/^git restore --staged [^\\s.;&|-][^\\s;&|]*$/": true,
   },
 
   "workbench.startupEditor": "none",
