@@ -8,7 +8,12 @@
  * @date    [Fecha de creación del módulo/Fecha de la última modificación]
  * @version 1.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
+ */
+
+/**
+ * @defgroup  <Modulo> <MODULO> - <Título corto del módulo>
+ * @brief     <Descripción de una línea de lo que hace el módulo.>
  */
 
 #ifndef <MODULO>_H
@@ -23,7 +28,7 @@
  * @ingroup <Modulo>
  */
 enum <modulo>_config {
-  <MODULO>_<CONSTANTE> = 0,   //!< <Descripción y unidades.>
+  k<Modulo><Constante> = 0,   //!< <Descripción y unidades.>
 };
 
 // ===== <Modulo> - Tipos Publicos =====
@@ -32,10 +37,10 @@ enum <modulo>_config {
  * @ingroup <Modulo>
  */
 typedef enum {
-  <MODULO>_<VALOR>,           //!< <Descripción.>
+  k<Modulo><Valor>,           //!< <Descripción.>
 } <modulo>_estado_t;
 
 // ===== <Modulo> - Funciones Publicas =====
 void <modulo>_inicializar(void);
 
-#endif // <MODULO>_H
+#endif  // <MODULO>_H
