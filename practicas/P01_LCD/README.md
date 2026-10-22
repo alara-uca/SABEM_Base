@@ -8,7 +8,7 @@ carpeta `modulos/` registrada en el sistema de compilación. Vosotros sólo ten�
 ## Qué hay en la carpeta
 
 ```text
-proyecto_base/
+P01_LCD/
 ├── main.c                ← el programa (al principio, el ejemplo de la pantalla: ejemplo_lcd.c)
 ├── prj.conf              ← QUÉ MÓDULOS SE ACTIVAN (vacío al principio)
 ├── modulos/              ← las bibliotecas de la asignatura: comun/ y lcd/
