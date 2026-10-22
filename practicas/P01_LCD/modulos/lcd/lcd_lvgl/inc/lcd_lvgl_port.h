@@ -21,11 +21,16 @@
  *    programa debe llamar a lcd_lvgl_port_contar_1ms() cada milisegundo desde su propia
  *    interrupción. (El ejemplo lvgl_demo_widgets_bm del SDK hace lo mismo con lv_tick_inc().)
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2026
- * @version     1.0
+ * @author    Alejandro Lara Doña - alejandro.lara(at)uca.es
+ * @date      2026
+ * @version   1.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
+ */
+
+/**
+ * @defgroup  LCD_LVGL_Port LCD_LVGL_PORT - Port de LVGL
+ * @brief     Une LVGL con lcd_panel (imagen) y lcd_tactil (entrada).
  */
 
 #ifndef LCD_LVGL_PORT_H
@@ -36,8 +41,8 @@
 
 // ===== LCD_LVGL_PORT - Macros Publicas =====
 /**
- * @defgroup  Lcd_Lvgl_Port_Macros LCD_LVGL_PORT - Macros Públicas
- * @ingroup   Lcd_Lvgl_Port
+ * @defgroup  LCD_LVGL_Port_Macros LCD_LVGL_PORT - Macros Públicas
+ * @ingroup   LCD_LVGL_Port
  * @{
  */
 #ifndef LCD_LVGL_PORT_SYSTICK_PROPIO
@@ -61,7 +66,7 @@
 /**
  * @brief   Inicializa la pantalla (lcd_panel), el táctil (lcd_tactil) y LVGL, y registra en
  * LVGL el reloj, el *display* y el dispositivo de entrada.
- * @ingroup Lcd_Lvgl_Port
+ * @ingroup LCD_LVGL_Port
  *
  * @details Llamarla más de una vez no tiene efecto. Con FreeRTOS debe llamarse desde una
  * tarea, con el planificador ya en marcha.
@@ -71,7 +76,7 @@ void lcd_lvgl_port_inicializar(void);
 /**
  * @brief   Espera a que termine el último volcado de píxeles y suelta el bus de la pantalla si
  * el *port* lo tenía tomado.
- * @ingroup Lcd_Lvgl_Port
+ * @ingroup LCD_LVGL_Port
  *
  * @details El bus se toma en el primer volcado de un refresco de LVGL y se conserva durante el
  * refresco completo; ésta es la función que lo devuelve. La llaman lcd_lvgl_procesar() y
@@ -83,7 +88,7 @@ void lcd_lvgl_port_soltar_bus(void);
 /**
  * @brief   Avanza un milisegundo el reloj de LVGL. Sólo sin FreeRTOS y con
  * LCD_LVGL_PORT_SYSTICK_PROPIO a 0: hay que llamarla cada milisegundo desde una interrupción.
- * @ingroup Lcd_Lvgl_Port
+ * @ingroup LCD_LVGL_Port
  */
 void lcd_lvgl_port_contar_1ms(void);
 

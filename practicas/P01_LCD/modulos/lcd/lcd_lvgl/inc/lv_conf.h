@@ -29,11 +29,11 @@
  *  - A 1: LV_OS_FREERTOS. lv_lock() es un mutex RECURSIVO de FreeRTOS:
  *    configUSE_RECURSIVE_MUTEXES tiene que valer 1 (es su valor por defecto en el SDK).
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2026
- * @version     1.0
+ * @author    Alejandro Lara Doña - alejandro.lara(at)uca.es
+ * @date      2026
+ * @version   1.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef LV_CONF_H

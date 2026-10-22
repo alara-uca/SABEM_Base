@@ -39,159 +39,164 @@
  * REGLA DE MEZCLA: lcd_lvgl_* y los widgets de LVGL se mezclan libremente. lcd_* (directo) y
  * LVGL sólo en zonas distintas de la pantalla, porque LVGL repinta lo que considera suyo.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2026
- * @version     1.0
+ * @author    Alejandro Lara Doña - alejandro.lara(at)uca.es
+ * @date      2026
+ * @version   1.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
+ */
+
+/**
+ * @defgroup  LCD_LVGL LCD_LVGL - Dibujo emulado sobre LVGL
+ * @brief     Funciones lcd_lvgl_*: cada llamada crea o actualiza un objeto LVGL.
  */
 
 #ifndef LCD_LVGL_H
 #define LCD_LVGL_H
 
-#include "tipos.h"
 #include "lcd_panel.h"
+#include "tipos.h"
 
 // ===== LCD_LVGL - Macros Publicas =====
 /**
- * @defgroup  Lcd_Lvgl_Macros LCD_LVGL - Macros Públicas
- * @ingroup   Lcd_Lvgl
+ * @defgroup  LCD_LVGL_Macros LCD_LVGL - Macros Públicas
+ * @ingroup   LCD_LVGL
  * @brief     Colores RGB565 y fuentes con los mismos nombres que en la antigua glcd.h.
  *
- * @details Van protegidos con #ifndef para que no choquen con los de lcd.h si un programa
+ * @details Van protegidos con `#ifndef` para que no choquen con los de lcd.h si un programa
  * incluye las dos cabeceras (los valores son los mismos).
  * @{
  */
 #ifndef RGB
-/**
+  /**
  * @brief   Convierte un color RGB de 24 bits (8:8:8) a RGB565 (5:6:5).
  * @warning r, g y b deben ser de 8 bits; se evalúan una sola vez cada uno.
  */
-#define RGB(r, g, b)    ((((r) & 0xF8) << 8) | (((g) & 0xFC) << 3) | (((b) & 0xF8) >> 3))
+  #define RGB(r, g, b) ((((r) & 0xF8) << 8) | (((g) & 0xFC) << 3) | (((b) & 0xF8) >> 3))
 #endif
 
 #ifndef NEGRO
-#define NEGRO         RGB(0, 0, 0)
+  #define NEGRO RGB(0, 0, 0)
 #endif
 #ifndef AZUL_OSCURO
-#define AZUL_OSCURO   RGB(0, 0, 128)
+  #define AZUL_OSCURO RGB(0, 0, 128)
 #endif
 #ifndef VERDE_OSCURO
-#define VERDE_OSCURO  RGB(0, 128, 0)
+  #define VERDE_OSCURO RGB(0, 128, 0)
 #endif
 #ifndef CIAN_OSCURO
-#define CIAN_OSCURO   RGB(0, 128, 128)
+  #define CIAN_OSCURO RGB(0, 128, 128)
 #endif
 #ifndef MARRON
-#define MARRON        RGB(128, 0, 0)
+  #define MARRON RGB(128, 0, 0)
 #endif
 #ifndef PURPURA
-#define PURPURA       RGB(128, 0, 128)
+  #define PURPURA RGB(128, 0, 128)
 #endif
 #ifndef OLIVA
-#define OLIVA         RGB(128, 255, 0)
+  #define OLIVA RGB(128, 255, 0)
 #endif
 #ifndef NARANJA
-#define NARANJA       RGB(255, 128, 0)
+  #define NARANJA RGB(255, 128, 0)
 #endif
 #ifndef GRIS_CLARO
-#define GRIS_CLARO    RGB(192, 192, 192)
+  #define GRIS_CLARO RGB(192, 192, 192)
 #endif
 #ifndef GRIS_OSCURO
-#define GRIS_OSCURO   RGB(128, 128, 128)
+  #define GRIS_OSCURO RGB(128, 128, 128)
 #endif
 #ifndef AZUL
-#define AZUL          RGB(0, 0, 255)
+  #define AZUL RGB(0, 0, 255)
 #endif
 #ifndef VERDE
-#define VERDE         RGB(0, 255, 0)
+  #define VERDE RGB(0, 255, 0)
 #endif
 #ifndef CIAN
-#define CIAN          RGB(0, 255, 255)
+  #define CIAN RGB(0, 255, 255)
 #endif
 #ifndef ROJO
-#define ROJO          RGB(255, 0, 0)
+  #define ROJO RGB(255, 0, 0)
 #endif
 #ifndef MAGENTA
-#define MAGENTA       RGB(255, 0, 255)
+  #define MAGENTA RGB(255, 0, 255)
 #endif
 #ifndef AMARILLO
-#define AMARILLO      RGB(255, 255, 0)
+  #define AMARILLO RGB(255, 255, 0)
 #endif
 #ifndef BLANCO
-#define BLANCO        RGB(255, 255, 255)
+  #define BLANCO RGB(255, 255, 255)
 #endif
 #ifndef BLACK
-#define BLACK         RGB(0, 0, 0)
+  #define BLACK RGB(0, 0, 0)
 #endif
 #ifndef DARKBLUE
-#define DARKBLUE      RGB(0, 0, 128)
+  #define DARKBLUE RGB(0, 0, 128)
 #endif
 #ifndef DARKGREEN
-#define DARKGREEN     RGB(0, 128, 0)
+  #define DARKGREEN RGB(0, 128, 0)
 #endif
 #ifndef DARKCYAN
-#define DARKCYAN      RGB(0, 128, 128)
+  #define DARKCYAN RGB(0, 128, 128)
 #endif
 #ifndef MAROON
-#define MAROON        RGB(128, 0, 0)
+  #define MAROON RGB(128, 0, 0)
 #endif
 #ifndef PURPLE
-#define PURPLE        RGB(128, 0, 128)
+  #define PURPLE RGB(128, 0, 128)
 #endif
 #ifndef OLIVE
-#define OLIVE         RGB(128, 255, 0)
+  #define OLIVE RGB(128, 255, 0)
 #endif
 #ifndef ORANGE
-#define ORANGE        RGB(255, 128, 0)
+  #define ORANGE RGB(255, 128, 0)
 #endif
 #ifndef LIGHTGREY
-#define LIGHTGREY     RGB(192, 192, 192)
+  #define LIGHTGREY RGB(192, 192, 192)
 #endif
 #ifndef DARKGREY
-#define DARKGREY      RGB(128, 128, 128)
+  #define DARKGREY RGB(128, 128, 128)
 #endif
 #ifndef BLUE
-#define BLUE          RGB(0, 0, 255)
+  #define BLUE RGB(0, 0, 255)
 #endif
 #ifndef GREEN
-#define GREEN         RGB(0, 255, 0)
+  #define GREEN RGB(0, 255, 0)
 #endif
 #ifndef CYAN
-#define CYAN          RGB(0, 255, 255)
+  #define CYAN RGB(0, 255, 255)
 #endif
 #ifndef RED
-#define RED           RGB(255, 0, 0)
+  #define RED RGB(255, 0, 0)
 #endif
 #ifndef YELLOW
-#define YELLOW        RGB(255, 255, 0)
+  #define YELLOW RGB(255, 255, 0)
 #endif
 #ifndef WHITE
-#define WHITE         RGB(255, 255, 255)
+  #define WHITE RGB(255, 255, 255)
 #endif
 
 #ifndef FUENTE8X16
-#define FUENTE8X16    0u  //!< UNSCII 16: monoespaciada, 8 x 16 píxeles.
+  #define FUENTE8X16 0u  //!< UNSCII 16: monoespaciada, 8 x 16 píxeles.
 #endif
 #ifndef FUENTE12X24
-#define FUENTE12X24   1u  //!< Montserrat 24: proporcional, 24 píxeles de alto de línea aprox.
+  #define FUENTE12X24 1u  //!< Montserrat 24: proporcional, 24 píxeles de alto de línea aprox.
 #endif
 #ifndef FUENTE16X32
-#define FUENTE16X32   2u  //!< Montserrat 32: proporcional, 32 píxeles de alto de línea aprox.
+  #define FUENTE16X32 2u  //!< Montserrat 32: proporcional, 32 píxeles de alto de línea aprox.
 #endif
 #ifndef NUMERO_FUENTES
-#define NUMERO_FUENTES  3u  //!< Número de fuentes disponibles.
+  #define NUMERO_FUENTES 3u  //!< Número de fuentes disponibles.
 #endif
 
-#define LCD_LVGL_MAX_ETIQUETAS  32u   //!< Etiquetas que se recuerdan para reutilizarlas por (x, y).
-#define LCD_LVGL_MAX_TEXTO      128u  //!< Caracteres máximos de una llamada a printf/xprintf.
+#define LCD_LVGL_MAX_ETIQUETAS 32u   //!< Etiquetas que se recuerdan para reutilizarlas por (x, y).
+#define LCD_LVGL_MAX_TEXTO     128u  //!< Caracteres máximos de una llamada a printf/xprintf.
 //!@}
 
 // ===== LCD_LVGL - Funciones Publicas =====
 /**
  * @brief   Inicializa la pantalla, el táctil y LVGL (a través de lcd_lvgl_port) y deja la
  * pantalla activa en negro, con el lienzo de dibujo creado.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  *
  * @details Llamarla más de una vez no tiene efecto. Con FreeRTOS, desde una tarea y con el
  * planificador en marcha.
@@ -201,7 +206,7 @@ void lcd_lvgl_inicializar(void);
 /**
  * @brief   Deja que LVGL haga su trabajo: atiende temporizadores y animaciones, lee el táctil,
  * envía eventos a los widgets y repinta las zonas que han cambiado.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  *
  * @details Hay que llamarla a menudo (cada 5 a 30 ms): en el bucle principal sin RTOS, o en
  * una tarea de interfaz con FreeRTOS. Sin ella NADA de lo dibujado llega a la pantalla.
@@ -213,7 +218,7 @@ uint32_t lcd_lvgl_procesar(void);
 
 /**
  * @brief   Repinta en el acto las zonas que han cambiado, sin esperar a lcd_lvgl_procesar().
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  *
  * @details Útil para ver algo inmediatamente (p. ej. un mensaje antes de una operación
  * larga). No atiende al táctil ni a los temporizadores: no sustituye a lcd_lvgl_procesar().
@@ -223,45 +228,45 @@ void lcd_lvgl_refrescar_ya(void);
 /**
  * @brief   Borra la pantalla: elimina TODOS los objetos de la pantalla activa (también los
  * widgets que haya creado el programa), olvida las etiquetas y pone el fondo del color indicado.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   color   Color RGB565 del fondo.
  */
 void lcd_lvgl_borrar(uint16_t color);
 
 /**
  * @brief   Análoga a printf: escribe texto con la posición, colores y fuente actuales.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  *
  * @details Interpreta '\\n', '\\r', '\\t', '\\b', '\\v' y '\\f' como glcd_printf. Si el texto
  * sobrepasa el borde derecho pasa a la línea siguiente, y si sobrepasa el inferior desplaza el
  * contenido hacia arriba (si el desplazamiento está activado) o vuelve arriba.
  *
- * @param[in]   formato   Cadena de formato, como en printf.
- * @param[in]   ...       Argumentos que corresponden a los especificadores de formato.
+ * @param[in]   ptr_formato  Cadena de formato, como en printf.
+ * @param[in]   ...          Argumentos que corresponden a los especificadores de formato.
  * @return  Número de caracteres que ha generado el formato; negativo si hay error.
  * @note    Se admiten como mucho LCD_LVGL_MAX_TEXTO caracteres por llamada.
  */
-int32_t lcd_lvgl_printf(const char *formato, ...);
+int32_t lcd_lvgl_printf(const char *ptr_formato, ...);
 
 /**
  * @brief   Como lcd_lvgl_printf(), pero indicando posición, colores y fuente. No cambia la
  * configuración de texto actual.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   x             Coordenada X del primer carácter.
  * @param[in]   y             Coordenada Y del primer carácter.
  * @param[in]   color         Color del texto.
  * @param[in]   color_fondo   Color de fondo del texto.
  * @param[in]   fuente        FUENTE8X16, FUENTE12X24 o FUENTE16X32.
- * @param[in]   formato       Cadena de formato, como en printf.
+ * @param[in]   ptr_formato   Cadena de formato, como en printf.
  * @param[in]   ...           Argumentos que corresponden a los especificadores de formato.
  * @return  Número de caracteres que ha generado el formato; negativo si hay error.
  */
 int32_t lcd_lvgl_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo,
-                         uint32_t fuente, const char *formato, ...);
+                         uint32_t fuente, const char *ptr_formato, ...);
 
 /**
  * @brief   Escribe un carácter en (x, y). No interpreta caracteres de control.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   c             Carácter (sólo se escribe si es imprimible).
  * @param[in]   x             Coordenada X.
  * @param[in]   y             Coordenada Y.
@@ -276,27 +281,27 @@ void lcd_lvgl_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t 
  * @brief   Escribe una cadena en (x, y), en una sola etiqueta. No interpreta caracteres de
  * control. A diferencia de glcd_texto(), lo que no cabe a la derecha se recorta (no salta de
  * línea).
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   x             Coordenada X.
  * @param[in]   y             Coordenada Y.
  * @param[in]   color         Color del texto.
  * @param[in]   color_fondo   Color de fondo.
  * @param[in]   fuente        FUENTE8X16, FUENTE12X24 o FUENTE16X32.
- * @param[in]   cadena        Texto terminado en '\\0'.
+ * @param[in]   ptr_cadena    Texto terminado en '\\0'.
  */
 void lcd_lvgl_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint32_t fuente,
-                    const char *cadena);
+                    const char *ptr_cadena);
 
 /**
  * @brief   Fija el color del texto de lcd_lvgl_printf().
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   color   Color RGB565.
  */
 void lcd_lvgl_color_texto(uint16_t color);
 
 /**
  * @brief   Fija el color de fondo del texto de lcd_lvgl_printf().
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   color_fondo   Color RGB565.
  */
 void lcd_lvgl_fondo_texto(uint16_t color_fondo);
@@ -304,7 +309,7 @@ void lcd_lvgl_fondo_texto(uint16_t color_fondo);
 /**
  * @brief   Fija la posición del siguiente lcd_lvgl_printf(). Sin efecto si está fuera de la
  * pantalla.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   x   Coordenada X.
  * @param[in]   y   Coordenada Y.
  */
@@ -313,7 +318,7 @@ void lcd_lvgl_xy_texto(uint16_t x, uint16_t y);
 /**
  * @brief   Desplaza hacia arriba lo dibujado por lcd_lvgl_* el número de líneas (píxeles)
  * indicado. Los objetos que quedan por completo fuera de la pantalla se eliminan.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   lineas  Píxeles que se desplaza.
  * @note    Sólo mueve los objetos del lienzo: los widgets de LVGL se quedan donde están.
  */
@@ -322,21 +327,21 @@ void lcd_lvgl_desplazar(uint16_t lineas);
 /**
  * @brief   Activa o desactiva el desplazamiento automático de lcd_lvgl_printf() al llegar
  * abajo.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   activo   TRUE: activar; FALSE: desactivar (se vuelve a la parte de arriba).
  */
 void lcd_lvgl_activar_desplazamiento(bool_t activo);
 
 /**
  * @brief   Selecciona la fuente de lcd_lvgl_printf().
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   fuente  FUENTE8X16, FUENTE12X24 o FUENTE16X32. Si no es válida, no se hace nada.
  */
 void lcd_lvgl_seleccionar_fuente(uint32_t fuente);
 
 /**
  * @brief   Dibuja un punto.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   x       Coordenada X.
  * @param[in]   y       Coordenada Y.
  * @param[in]   color   Color.
@@ -347,7 +352,7 @@ void lcd_lvgl_punto(uint16_t x, uint16_t y, uint16_t color);
 
 /**
  * @brief   Dibuja un segmento de recta entre (x0, y0) y (x1, y1), de 1 píxel de grosor.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   x0      Coordenada X del primer extremo.
  * @param[in]   y0      Coordenada Y del primer extremo.
  * @param[in]   x1      Coordenada X del segundo extremo.
@@ -358,7 +363,7 @@ void lcd_lvgl_linea(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t
 
 /**
  * @brief   Dibuja el contorno de un rectángulo definido por dos vértices opuestos (incluidos).
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   x0      Coordenada X de un vértice.
  * @param[in]   y0      Coordenada Y de un vértice.
  * @param[in]   x1      Coordenada X del vértice opuesto.
@@ -369,7 +374,7 @@ void lcd_lvgl_rectangulo(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uin
 
 /**
  * @brief   Dibuja un rectángulo relleno definido por dos vértices opuestos (incluidos).
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   x0      Coordenada X de un vértice.
  * @param[in]   y0      Coordenada Y de un vértice.
  * @param[in]   x1      Coordenada X del vértice opuesto.
@@ -381,7 +386,7 @@ void lcd_lvgl_rectangulo_relleno(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t
 
 /**
  * @brief   Dibuja una circunferencia (sólo el contorno).
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   xc      Coordenada X del centro.
  * @param[in]   yc      Coordenada Y del centro.
  * @param[in]   radio   Radio en píxeles.
@@ -391,7 +396,7 @@ void lcd_lvgl_circunferencia(uint16_t xc, uint16_t yc, uint16_t radio, uint16_t 
 
 /**
  * @brief   Dibuja un círculo relleno.
- * @ingroup Lcd_Lvgl
+ * @ingroup LCD_LVGL
  * @param[in]   xc      Coordenada X del centro.
  * @param[in]   yc      Coordenada Y del centro.
  * @param[in]   radio   Radio en píxeles.

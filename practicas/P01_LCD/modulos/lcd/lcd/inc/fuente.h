@@ -7,11 +7,16 @@
  * pero el de un PC sí, y el 255 de la última posición no cabría), y se declaran aquí las tres
  * fuentes, cuyos datos están ahora en fuente.c en lugar de en una biblioteca precompilada.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2026
- * @version     3.0
+ * @author    Alejandro Lara Doña - alejandro.lara(at)uca.es
+ * @date      2026
+ * @version   3.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
+ */
+
+/**
+ * @defgroup  Fuente Fuente - Fuentes de mapa de bits
+ * @brief     Tipo fuente_t y las tres fuentes de la biblioteca lcd.
  */
 
 #ifndef FUENTE_H
@@ -25,11 +30,11 @@
  * @ingroup Fuente
  */
 typedef struct {
-  uint8_t pixeles_ancho;    //!< Ancho en píxeles de la fuente.
-  uint8_t pixeles_alto;     //!< Alto en píxeles de la fuente.
-  uint8_t primer_caracter;  //!< Código (Latin-1) del primer carácter incluido en la fuente.
-  uint8_t ultimo_caracter;  //!< Código (Latin-1) del último carácter incluido en la fuente.
-  const uint8_t *datos;     //!< Puntero a los datos con el patrón de bits de los caracteres.
+  uint8_t        pixeles_ancho;    //!< Ancho en píxeles de la fuente.
+  uint8_t        pixeles_alto;     //!< Alto en píxeles de la fuente.
+  uint8_t        primer_caracter;  //!< Código (Latin-1) del primer carácter incluido en la fuente.
+  uint8_t        ultimo_caracter;  //!< Código (Latin-1) del último carácter incluido en la fuente.
+  const uint8_t *datos;            //!< Puntero a los datos con el patrón de bits de los caracteres.
 } fuente_t;
 
 /**
@@ -301,9 +306,9 @@ typedef struct {
  * @ingroup Fuente
  * @{
  */
-extern const fuente_t fuente_8x16;   //!< Fuente pequeña: 8 x 16 píxeles.
-extern const fuente_t fuente_12x24;  //!< Fuente mediana: 12 x 24 píxeles.
-extern const fuente_t fuente_16x32;  //!< Fuente grande: 16 x 32 píxeles.
+extern const fuente_t kFuente8x16;   //!< Fuente pequeña: 8 x 16 píxeles.
+extern const fuente_t kFuente12x24;  //!< Fuente mediana: 12 x 24 píxeles.
+extern const fuente_t kFuente16x32;  //!< Fuente grande: 16 x 32 píxeles.
 //!@}
 
 #endif  // FUENTE_H

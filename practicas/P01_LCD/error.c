@@ -24,11 +24,11 @@
  * pero sin mensaje. Con FreeRTOS y lcd_lvgl, si otra tarea tiene tomado LVGL (`lv_lock()`), el
  * mensaje no llega a pintarse.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @author      Alejandro Lara Doña - alejandro.lara(at)uca.es | Eduardo Romero
  * @date        2014/2026
- * @version     3.0
+ * @version   3.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  *
  * @note    Portado al MCX A156 en 2026: sólo cambia la pantalla (`glcd_*` → `lcd_*` o
  *          `lcd_lvgl_*`). En el LPC4088 esta función venía dentro de la biblioteca base cerrada;

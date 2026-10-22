@@ -11,11 +11,11 @@
  * (bits 4..0). La macro LCD_RGB() lo construye a partir de las tres componentes de 8 bits, que es
  * como se dan los colores en casi cualquier programa de dibujo, descartando los bits de menos peso.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @author      Alejandro Lara Doña - alejandro.lara(at)uca.es | Eduardo Romero
  * @date        2014/2026
- * @version     3.0
+ * @version   3.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef LCD_COLORES_H
@@ -49,7 +49,7 @@
 
 // ===== LCD - Constantes Publicas =====
 /**
- * @defgroup  Lcd_Colores LCD - Colores con nombre
+ * @defgroup  LCD_Colores LCD - Colores con nombre
  * @ingroup   LCD
  * @brief     Colores más comunes, en español y en inglés. Son los mismos nombres y valores que en
  * glcd.h.

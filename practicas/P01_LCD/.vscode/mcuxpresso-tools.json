@@ -5,7 +5,7 @@
   "trustZoneType": "none",
   "multicoreType": "none",
   "projectType": "sdk-v2-freestanding",
-  "projectName": "proyecto_base",
+  "projectName": "P01_LCD",
   "sdk": {
     "path": "${userHome}/.mcuxpressotools/frdm_mcxa156_sdk",
     "version": "26.6.0",

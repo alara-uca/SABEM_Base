@@ -7,19 +7,21 @@
  * (lcd_tactil_leer()) y lo usa también el dispositivo de entrada de LVGL (lcd_lvgl_port.c). Las
  * coordenadas se devuelven ya giradas a la orientación apaisada de lcd_panel (0..479, 0..319).
  *
- * @note    El LPI2C2 es un bus COMPARTIDO (táctil, RTC DS3231 y sensor de distancia en SABM). Este
+ * @note    El LPI2C2 es un bus COMPARTIDO (táctil, RTC DS3231 y sensor de distancia en SABEM). Este
  * módulo lo inicializa sólo si nadie lo ha hecho antes, a la frecuencia común
  * LCD_TACTIL_I2C_FRECUENCIA_HZ, y con FreeRTOS la exclusión mutua del bus es responsabilidad
- * de quien lo comparte (P10 de SABM).
+ * de quien lo comparte (P10 de SABEM).
  *
- * @note    CONTRATO DE INTERFAZ fijado el 21/09/2026: lcd_lvgl_port.c se escribe contra estas
- * firmas.
+ * @author    Alejandro Lara Doña - alejandro.lara(at)uca.es
+ * @date      2026
+ * @version   1.0
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2026
- * @version     1.0
- *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
+ */
+
+/**
+ * @defgroup  LCD_Tactil LCD_TACTIL - Panel táctil
+ * @brief     Driver del GT911 por LPI2C2, en modo inmediato.
  */
 
 #ifndef LCD_TACTIL_H
@@ -28,7 +30,7 @@
 #include "tipos.h"
 
 // ===== LCD_TACTIL - Macros Publicas =====
-#define LCD_TACTIL_I2C_FRECUENCIA_HZ  100000u  //!< Frecuencia SCL del bus compartido.
+#define LCD_TACTIL_I2C_FRECUENCIA_HZ 100000u  //!< Frecuencia SCL del bus compartido.
 
 // ===== LCD_TACTIL - Funciones Publicas =====
 /**
@@ -60,16 +62,17 @@ bool_t lcd_tactil_inicializar(void);
  * la función devuelve lo último que se supo. Por eso puede llamarse tan a menudo como se quiera.
  * Si lcd_tactil_inicializar() no ha tenido éxito, devuelve siempre FALSE.
  *
- * @param[out]  x   Coordenada horizontal (0..LCD_PANEL_ANCHO-1). No se toca si no hay toque.
- * @param[out]  y   Coordenada vertical (0..LCD_PANEL_ALTO-1). No se toca si no hay toque.
+ * @param[out]  ptr_x   Coordenada horizontal (0..LCD_PANEL_ANCHO-1). No se toca si no hay toque.
+ * @param[out]  ptr_y   Coordenada vertical (0..LCD_PANEL_ALTO-1). No se toca si no hay toque.
  * @return  TRUE si hay un dedo sobre la pantalla; FALSE si no.
  */
-bool_t lcd_tactil_leer(uint16_t *x, uint16_t *y);
+bool_t lcd_tactil_leer(uint16_t *ptr_x, uint16_t *ptr_y);
 
 /**
  * @brief   Indica si la pantalla está pulsada, sin devolver coordenadas.
  *
- * @details Equivale a lcd_tactil_leer(NULL, NULL): x e y pueden ser NULL en lcd_tactil_leer().
+ * @details Equivale a lcd_tactil_leer(NULL, NULL): `ptr_x` y `ptr_y` pueden ser NULL en
+ * lcd_tactil_leer().
  */
 bool_t lcd_tactil_pulsado(void);
 
