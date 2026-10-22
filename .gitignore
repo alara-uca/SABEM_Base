@@ -1,194 +1,40 @@
-# =============================================================================
-#  SABEM 26/27 — Sistemas Automáticos Basados en Microcontroladores
-#  .gitignore del repositorio docente y del firmware del AGV
-# =============================================================================
-#  Criterio: se versiona el FUENTE y la CONFIGURACIÓN DEL PROYECTO; no se
-#  versiona nada que se regenere al compilar, ni nada que dependa del PC o del
-#  usuario concretos que abrió el proyecto.
-# =============================================================================
-
-# -----------------------------------------------------------------------------
-#  Keil µVision 5 — salidas de compilación
-# -----------------------------------------------------------------------------
-Objects/
-Listings/
-DebugConfig/
-RTE/_*/
-*.axf
-*.hex
-*.bin
-*.elf
-*.map
-*.htm
-*.build_log.htm
-*.lnp
-*.sct
-*.dep
-*.d
-*.o
-*.crf
-*.lst
-*.i
-*.iex
-*.l1p
-*.l2p
-*.plg
-*.tra
-*.__i
-*.scvd.bak
-
-# -----------------------------------------------------------------------------
-#  Keil µVision 5 — ficheros de usuario y de sesión
-# -----------------------------------------------------------------------------
-#  El .uvprojx SÍ se versiona: es la definición del proyecto (ficheros fuente,
-#  rutas de inclusión, opciones del compilador) y sin él nadie puede compilar.
-#
-#  El .uvoptx y sobre todo el .uvguix.<usuario> NO: guardan la posición de las
-#  ventanas, los puntos de ruptura y las rutas absolutas del PC de quien lo
-#  abrió. Versionarlos genera un conflicto en cada commit de cada alumno.
-# -----------------------------------------------------------------------------
-*.uvguix.*
-*.uvgui.*
-*.uvoptx
-*.uvopt
-*.bak
-*.sav
-*.ini.bak
-JLinkSettings.ini
-JLinkLog.txt
-*.jlink
-EventRecorderStub.scvd.bak
-
-# -----------------------------------------------------------------------------
-#  Otros entornos, por si se cierra la decisión D1/D2 hacia otra plataforma
-# -----------------------------------------------------------------------------
-# MCUXpresso / Eclipse
-.metadata/
+# --- Salida de compilacion: una carpeta por preset de CMake (minusculas) ---
 debug/
 release/
 Debug/
 Release/
-.settings/
-*.launch
-# MCUXpresso para VS Code: rutas de la toolchain del PC de cada usuario
+*.o
+*.d
+*.elf
+*.axf
+*.hex
+*.bin
+*.map
+*.lst
+*.su
+
+# mcux_include.json lleva rutas personales (C:/Users/<usuario>/...) y el proyecto funciona
+# igual sin el: la extension lo regenera. No se sube.
+# .vscode/mcuxpresso-tools.json SI se versiona.
 mcux_include.json
-# MCUXpresso Config Tools: cfg_tools/ lo regeneran la extensión y Config Tools (project_info.json,
-# cfg_require.json) con rutas absolutas del PC. Los .bak de cada «Update Code» ya los cubre *.bak.
+
+# --- Carpeta auxiliar de la extension ---
+__repo__/
+
+# --- MCUXpresso Config Tools ---
+# cfg_tools/ lo regeneran la extension y Config Tools con rutas absolutas de vuestro PC.
+# El .mex y board/ (pin_mux, clock_config, peripherals) SI se versionan.
 cfg_tools/
-# VS Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
-# ESP-IDF / PlatformIO / CMake
-build/
-sdkconfig.old
-.pio/
-CMakeFiles/
-CMakeCache.txt
-compile_commands.json
+# Copia del fichero anterior que deja Config Tools en cada "Update Code".
+*.bak
 
-# -----------------------------------------------------------------------------
-#  Markdown, pandoc y generación de documentos
-# -----------------------------------------------------------------------------
-#  Los .md son el FUENTE del material y se versionan. Los .docx y .pptx que
-#  genera pandoc para entregar al alumnado son DERIVADOS y no: se regeneran con
-#  un comando y, siendo binarios, ensucian los diffs y engordan el repositorio.
-#
-#  Excepción: los documentos de la carpeta Antiguo/ SÍ se conservan, porque allí
-#  el .docx y el .pptx son el original y no hay fuente del que regenerarlos.
-# -----------------------------------------------------------------------------
-salida/
-_build/
-*.docx
-*.pptx
-*.odt
-*.odp
-!Antiguo/**/*.docx
-!Antiguo/**/*.pptx
-!Plantillas/**/*.docx
-
-# PDF: no se ignoran. Los de las lecciones de Teoria/ se exportan con Marp y se
-# versionan junto a su .md para que esten disponibles en GitHub. Aqui solo se
-# ignoran los auxiliares de LaTeX.
-*.aux
+# --- Registros ---
 *.log
-*.out
-*.toc
-*.synctex.gz
-.pandoc-tmp/
 
-# Doxygen
-doc/html/
-doc/latex/
-doc/xml/
-Doxyfile.bak
-
-# -----------------------------------------------------------------------------
-#  Datos de laboratorio en crudo
-# -----------------------------------------------------------------------------
-#  Las capturas de osciloscopio y los volcados de telemetría pueden ocupar
-#  cientos de megas. Se versiona la gráfica y la tabla resumen que van a la
-#  memoria, no el fichero crudo del instrumento.
-# -----------------------------------------------------------------------------
-*.raw
-*.wfm
-*.isf
-capturas_crudas/
-telemetria_cruda/
-
-# -----------------------------------------------------------------------------
-#  Credenciales — NUNCA al repositorio
-# -----------------------------------------------------------------------------
-#  Un SSID y una contraseña que entran en el historial de Git ya no se borran
-#  del todo. Ver Trabajo_AGV/firmware_base/cfg/agv_config.h, sección de Wi-Fi.
-# -----------------------------------------------------------------------------
-*credenciales*
-*secretos*
-.env
-.env.*
-agv_credenciales.h
-
-# -----------------------------------------------------------------------------
-#  Sistema operativo y editores
-# -----------------------------------------------------------------------------
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
+# --- Sistema operativo y editores ---
 Thumbs.db
-ehthumbs.db
-desktop.ini
-*~
-*.swp
-*.swo
-.idea/
+.DS_Store
 
-# Python (los generadores de 00_Gestion/herramientas/)
-__pycache__/
-*.pyc
-
-# Carpeta de descarte temporal
-_to_delete/
-
-# Presentaciones de teoria de SABM generadas sobre Plantillas/PlantillaPPT.pptx
-# (00_Gestion/herramientas/generar_pptx_plantilla.py): se versionan para que
-# esten disponibles en GitHub junto a su .md.
-!Teoria/*.pptx
-!Teoria/B*/*.pptx
-!Plantillas/**/*.pptx
-
-# -----------------------------------------------------------------------------
-#  Marp (diapositivas de teoría con el plugin isa-marp)
-# -----------------------------------------------------------------------------
-#  node_modules lo regenera `npm install` (o /marp-preparar) a partir de
-#  package.json y package-lock.json, que SÍ se versionan junto con temas/.
-#  Las exportaciones HTML de marp-cli son derivadas del .md. Los .pptx de las
-#  subcarpetas de lección ya quedan fuera por la regla general *.pptx.
-# -----------------------------------------------------------------------------
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.npm/
-Teoria/**/*.html
+# --- Credenciales, nunca al repositorio ---
+*_credenciales.*
+wifi_config_local.h
