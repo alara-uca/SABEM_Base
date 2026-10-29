@@ -11,7 +11,7 @@ Se apoya en el mecanismo oficial de **módulos externos** del MCUXpresso SDK
 CMake Build System*) y en
 [develop/build_system/Software_Componentization.md](../../../develop/build_system/Software_Componentization.md).
 
-Probado con el SDK 26.06 (`D:/Github/FRDM_MCXA156/mcuxsdk`), toolchain `armgcc` y los presets de
+Probado con el SDK 26.06 (`<ruta-del-SDK>/mcuxsdk`), toolchain `armgcc` y los presets de
 la extensión MCUXpresso para VS Code.
 
 ## 1. Módulos disponibles
