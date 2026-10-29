@@ -4,12 +4,23 @@ Resumen de las normas de la lección **L1.1** (partes C y D). Si algo de aquí c
 manda la lección. Las herramientas que lo comprueban son `.editorconfig`, `.clang-format` y
 `.clang-tidy` (raíz del repositorio): no las modifiquéis.
 
+> Copia de `SABEM_Base/plantillas/estiloC.md`. Ampliaciones respecto a Base: compatibilidad con
+> GNU++, reglas MISRA C:2012, macros con valor de retorno (`({ ... })`), bucle infinito con
+> `while (TRUE)`, prohibición de `static inline`, tipos de `tipos.h` y el ejemplo de macro con
+> prefijo de módulo (`RED_MAX_CONEXIONES`). En todo lo demás manda Base.
+
 ## Reglas generales
 
-- C estándar (GNU11 o GNU17) y tipos de `<stdint.h>` (`uint8_t`, `int32_t`…).
+- Compatible con C (GNU11) y C++ (GNU++11), o con C (GNU17) y C++ (GNU++17).
+- Tipos de `<stdint.h>` (`uint8_t`, `int32_t`…).
+- `bool_t`, `float32_t` y similares: los define `tipos.h` (módulo `comun`); no usar `bool` ni
+  `float` directos.
+- Basado en MISRA C:2012 sin declarar conformidad. Las violaciones de reglas MISRA se documentan
+  (ver "Reglas MISRA C:2012 que se incumplen").
 - Variables y parámetros con tipo completo. Funciones sin argumentos: `void f(void)`, nunca `f()`.
 - Las expresiones de un `#define` van entre paréntesis.
-- Todo lo que no sea público, **`static`**. Nunca `static` en un `.h`.
+- Todo lo que no sea público, **`static`**. Nunca `static` en un `.h`. No combinar `static` con
+  `inline`.
 - Nombres, comentarios y mensajes **en español**, sin tildes ni eñes en los identificadores.
 
 ## Nomenclatura
@@ -21,12 +32,12 @@ manda la lección. Las herramientas que lo comprueban son `.editorconfig`, `.cla
 | Variables locales y parámetros | `snake_case` descriptivo | `porcentaje_velocidad` |
 | Variables globales (también `static` de fichero) | `g_` + `snake_case` | `g_contador_pulsos` |
 | Parámetros que son punteros | `ptr_` + `snake_case` | `ptr_buffer` |
-| Macros | `MAYUSCULAS_CON_GUION_BAJO` | `MAX_CONEXIONES` |
+| Macros | `MAYUSCULAS_CON_GUION_BAJO` | `RED_MAX_CONEXIONES` |
 | Tipos | `snake_case` + `_t` | `pieza_tipo_t` |
 | Constantes (enum, `const`) | `k` + `CamelCase` | `kPiezaCuadrado` |
 
 ```c
-#define MAX_CONEXIONES (100u)
+#define RED_MAX_CONEXIONES (100u)
 
 int32_t g_numero_pulsos = 0;
 void tec4x4_inicializar(uint8_t tipo);
@@ -46,7 +57,7 @@ typedef struct {
 - **Constantes: `enum`, no `#define`**, salvo si tiene que verlas el preprocesador.
 - **Prefijo único por módulo** en todo símbolo público (macros, variables, tipos y funciones).
   Sirve de *namespace*: `tec4x4_`, `motor_dc_`, `encoder_`…
-- Las macros siguen en mayúsculas (`MAX_CONEXIONES`); la `k` distingue las constantes de ellas.
+- Las macros siguen en mayúsculas (`RED_MAX_CONEXIONES`); la `k` distingue las constantes de ellas.
 
 ## Formato
 
@@ -59,7 +70,7 @@ Lo aplica el editor con `.editorconfig` y `.clang-format`; no lo hagáis a mano.
 - Continuación de línea alineada con el primer parámetro; si no cabe, a 4 espacios.
 - `case` indentado dentro del `switch`.
 - Una línea en blanco entre bloques lógicos; dos entre funciones.
-- Bucle infinito: `while (1)`.
+- Bucle infinito: `while (1)` o `while (TRUE)` (`TRUE` lo define `tipos.h`), nunca `for (;;)`.
 
 ```c
 void funcion_ejemplo(uint32_t parametro) {
@@ -114,9 +125,18 @@ pieza_t mi_pieza = {
 ```
 
 Evitad las macros con argumentos. Si son inevitables: cada argumento entre paréntesis, sin `;`
-final; `do { ... } while (0)` si no devuelven valor.
+final. Si devuelven valor, bloque `({ ... })` (extensión GNU) con una variable temporal para
+evaluar cada argumento una sola vez; si no lo devuelven, `do { ... } while (0)`.
 
 ```c
+// Con valor de retorno:
+#define CEIL(x) \
+({ \
+  __typeof__(x) _x = (x); \
+  (_x > 0) ? (long long)(_x + 0.9999999999) : (long long)_x; \
+})
+
+// Sin valor de retorno:
 #define ASSERT(expr, msg) \
 do { \
   if (!(expr)) { \
@@ -124,6 +144,25 @@ do { \
   } \
 } while (0)
 ```
+
+## Reglas MISRA C:2012 que se incumplen
+
+Se incumplen de forma deliberada, y por eso se documentan:
+
+- **Directiva 4.2**: todo uso de ensamblador debe documentarse. CMSIS-Core usa sentencias `__ASM`
+  para acceder a registros del núcleo en varios puntos. El ensamblador en línea puede ser opaco para
+  los analizadores MISRA y dar falsos positivos.
+- **Directiva 4.9**: macros con forma de función. Generan código más eficiente.
+- **Regla 1.3**: varios operadores `#`/`##` en una macro. Mismo motivo.
+- **Regla 11.4**: conversión entre puntero y entero. Acceso a registros del núcleo.
+- **Regla 11.6**: conversión de `unsigned long` a puntero. Acceso a registros del núcleo.
+- **Regla 13.5**: efectos laterales en el operando derecho de un operador lógico. El operando de
+  desplazamiento se usa en macros y funciones.
+- **Regla 14.4**: expresión condicional sin tipo esencialmente booleano. Hay macros con varias
+  instrucciones.
+- **Regla 15.5**: `return` antes del final de la función. Simplifica la lógica.
+- **Regla 20.10**: uso de los operadores `#`/`##`. Mismo motivo que la directiva 4.9.
+- **Reglas 21.1 y 21.2**: nombres reservados al compilador. Hay macros con guion bajo inicial.
 
 ## Trampas habituales
 

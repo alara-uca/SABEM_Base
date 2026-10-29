@@ -1,5 +1,8 @@
 # Documentación Doxygen
 
+> Copia de `SABEM_Base/plantillas/docDoxygen.md` con los ejemplos adaptados a `estiloC.md`:
+> constantes de enum `k`+CamelCase, prefijo de módulo en macros e identificadores en español.
+
 - `//` para comentarios no-documentación
 - Variables entre backticks: `` `ptr` nunca puede ser NULL ``
 - `/** ... */` para bloques de documentación
@@ -27,8 +30,8 @@
 /**
  * @brief   Lee el sensor y devuelve el valor calibrado.
  *
- * @param[in]     sensor        Puntero al sensor. No puede ser NULL.
- * @param[out]    output_value  Resultado calibrado almacenado aquí.
+ * @param[in]     ptr_sensor        Puntero al sensor. No puede ser NULL.
+ * @param[out]    ptr_valor_salida  Resultado calibrado almacenado aquí.
  *
  * @retval  0   Lectura exitosa.
  * @retval -1   Puntero NULL.
@@ -36,27 +39,27 @@
  *
  * @note    Puede tardar hasta 5 ms.
  */
-int32_t sensor_leer_calibrado(const sensor_t *sensor, float32_t *output_value);
+int32_t sensor_leer_calibrado(const sensor_t *ptr_sensor, float32_t *ptr_valor_salida);
 ```
 
 ## Macro
 
 ```c
 /**
- * @def     CONEXIONES_MAX
+ * @def     RED_MAX_CONEXIONES
  * @brief   Número máximo de conexiones simultáneas.
  */
-#define CONEXIONES_MAX 16
+#define RED_MAX_CONEXIONES (16u)
 
-#define PANTALLA_ANCHO_PX 480u  //!< Píxeles horizontales de la pantalla
+#define PANTALLA_ANCHO_PX (480u)  //!< Píxeles horizontales de la pantalla
 
 /**
  * @brief   Calcula el cuadrado de un número.
  * @param[in]  x  Número a elevar al cuadrado.
  * @return  Valor de x * x.
- * @warning El argumento `x` se evalúa dos veces. No usar `SQUARE(i++)`.
+ * @warning El argumento `x` se evalúa dos veces. No usar `CUADRADO(i++)`.
  */
-#define SQUARE(x) ((x) * (x))
+#define CUADRADO(x) ((x) * (x))
 ```
 
 ## Typedef
@@ -65,7 +68,7 @@ int32_t sensor_leer_calibrado(const sensor_t *sensor, float32_t *output_value);
 /**
  * @brief   Identificador único de usuario.
  */
-typedef uint32_t user_id_t;
+typedef uint32_t usuario_id_t;
 ```
 
 ## Enum
@@ -75,12 +78,12 @@ typedef uint32_t user_id_t;
  * @brief   Códigos de estado para operaciones de dispositivo.
  */
 typedef enum {
-  DEVICE_OK      = 0,  //!< Operación completada con éxito
-  DEVICE_BUSY,         //!< Dispositivo ocupado
-  DEVICE_ERROR,        //!< Error no especificado
-  DEVICE_TIMEOUT,      /*!< La operación no finalizó en el tiempo
-                            esperado */
-} device_status_t;
+  kDispositivoOk = 0,   //!< Operación completada con éxito
+  kDispositivoOcupado,  //!< Dispositivo ocupado
+  kDispositivoError,    //!< Error no especificado
+  kDispositivoTimeout,  /*!< La operación no finalizó en el tiempo
+                             esperado */
+} dispositivo_estado_t;
 ```
 
 ## Struct
@@ -90,9 +93,9 @@ typedef enum {
  * @brief   Configuración de un puerto serie (UART).
  */
 typedef struct {
-  uint32_t baud_rate;      //!< Velocidad en baudios
-  uint8_t  data_bits;      //!< Número de bits de datos
-  bool_t   enable_parity;  //!< Habilita el bit de paridad
+  uint32_t baudios;            //!< Velocidad en baudios
+  uint8_t  bits_datos;         //!< Número de bits de datos
+  bool_t   habilitar_paridad;  //!< Habilita el bit de paridad
 } uart_config_t;
 ```
 
