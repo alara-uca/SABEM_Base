@@ -106,7 +106,7 @@ funciona de principio a fin.
 Dentro del panel de la extensión se enlaza a todo el conjunto de herramientas y configuraciones de
 MCUXpresso. En particular, las **Config Tools** son una serie de herramientas que permiten
 configurar visualmente el multiplexado de pines, el árbol de relojes y los periféricos de la
-tarjeta, **generando el código correspondiente**. En SABM sí las vamos a usar como generador: aquí
+tarjeta, **generando el código correspondiente**. En SABEM sí las vamos a usar como generador: aquí
 trabajaremos sobre el HAL (Hardware Abstraction Layer) del fabricante (`fsl_*`) en vez de las
 librerias propias como realizamos en Informática Industrial.
 
